@@ -1,7 +1,7 @@
 # DBapores
 Recomendaciones de Steam utilizando la Steam Web API.
 
-steam-localhost/
+DBapores/
 ├─ README.md                           # Qué hace el proyecto + cómo arrancar (npm i / npm run dev)
 ├─ .gitignore                          # Ignorar node_modules, .env, logs, etc.
 ├─ .env.example                        # Plantilla: STEAM_API_KEY=..., PORT=3000, CC=ES, etc.
