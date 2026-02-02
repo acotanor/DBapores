@@ -90,3 +90,6 @@ steam-localhost/
    └─ components/                      # (Opcional) “partials” HTML si queréis reutilizar trozos
       ├─ navbar.html                   # Barra superior común
       └─ footer.html                   # Pie común
+
+
+112E7CAE5268A96388B6FB4E3FDCFFB9
