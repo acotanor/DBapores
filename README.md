@@ -1,95 +1,53 @@
-# DBapores
-Recomendaciones de Steam utilizando la Steam Web API.
+# TODO LIST
+## Endpoints más útiles para testear
+Las rutas más comunes que puedes concatenar a BASE_URL:
 
-DBapores/
-├─ README.md                           # Qué hace el proyecto + cómo arrancar (npm i / npm run dev)
-├─ .gitignore                          # Ignorar node_modules, .env, logs, etc.
-├─ .env.example                        # Plantilla: STEAM_API_KEY=..., PORT=3000, CC=ES, etc.
-│
-├─ server/                             # Backend mínimo: puente a Steam + lógica de recomendación
-│  ├─ package.json                     # Dependencias (express, cors opcional, node-fetch/axios, dotenv)
-│  └─ src/
-│     ├─ server.js                     # Arranca Express, sirve /public estático, monta rutas /api y escucha PORT
-│     ├─ routes.js                     # Define endpoints: /api/profile, /api/recommend/tags, /api/recommend/quiz
-│     ├─ config.js                     # Lee process.env (API key, country code, idioma, URLs base) y exporta constantes
-│     │
-│     ├─ steamApi.js                   # Funciones “HTTP wrapper” a Steam:
-│     │                                # - resolver vanity -> steamId (si usáis vanity)
-│     │                                # - obtener biblioteca (GetOwnedGames)
-│     │                                # - obtener detalles tienda (appdetails) para género/precio/oferta/fecha
-│     │
-│     ├─ profileService.js             # Crea el “PlayerProfile”:
-│     │                                # - normaliza lista de juegos (appid, name, playtime)
-│     │                                # - obtiene “tags” (géneros/categorías desde appdetails) por juego
-│     │                                # - agrupa tags por frecuencia (Shooter: 4, RPG: 1, ...)
-│     │
-│     ├─ recommendService.js           # Recomendación:
-│     │                                # - por tags: elige top tags, busca candidatos, filtra últimos 2 años,
-│     │                                #   ordena priorizando ofertas (discount) y devuelve lista final
-│     │                                # - por quiz: aplica filtros (género, precio, año, solo ofertas, etc.)
-│     │
-│     ├─ cache.js                      # (Opcional pero útil) Caché en memoria/JSON:
-│     │                                # - guardar appdetails por appid para no repetir llamadas (demo más rápida)
-│     │
-│     └─ utils.js                      # Helpers:
-│                                      # - contar frecuencias
-│                                      # - ordenar top tags
-│                                      # - filtrar por fecha (últimos 2 años)
-│                                      # - normalizar datos (precio, boolean onSale, etc.)
-│
-└─ public/                             # Frontend estático (HTML + Bootstrap + JS)
-   ├─ index.html                       # Página principal:
-   │                                  # - Form SteamID/vanity + botón “Generar perfil”
-   │                                  # - Botón “No tengo Steam” -> muestra/abre el quiz
-   │                                  # - Contenedores para: tags frecuentes y resultados
-   │
-   ├─ results.html                     # (Opcional) Si preferís página separada:
-   │                                  # - Recibe resultados y los pinta (si no, podéis usar solo index.html)
-   │
-   ├─ assets/
-   │  ├─ css/
-   │  │  └─ styles.css                 # Vuestro CSS:
-   │  │                                # - ajustes Bootstrap (espaciados, colores, cards)
-   │  │                                # - estilos de TagCloud, loaders, etc.
-   │  │
-   │  ├─ js/
-   │  │  ├─ main.js                    # Punto de entrada del front:
-   │  │  │                              # - añade event listeners a formularios/botones
-   │  │  │                              # - decide si ejecutar steamFlow o quizFlow
-   │  │  │
-   │  │  ├─ apiClient.js               # Cliente fetch al backend:
-   │  │  │                              # - postProfile(steamIdOrVanity)
-   │  │  │                              # - recommendByTags(tagsTop)
-   │  │  │                              # - recommendByQuiz(filters)
-   │  │  │
-   │  │  ├─ state.js                   # “Modelo” (estado en memoria):
-   │  │  │                              # - profile actual (games, tagsFreq)
-   │  │  │                              # - filtros quiz seleccionados
-   │  │  │                              # - resultados actuales
-   │  │  │
-   │  │  ├─ steamFlow.js               # Flujo Steam:
-   │  │  │                              # - leer steamId/vanity del form
-   │  │  │                              # - llamar /api/profile
-   │  │  │                              # - elegir top tags y llamar /api/recommend/tags
-   │  │  │                              # - guardar en state y pedir render
-   │  │  │
-   │  │  ├─ quizFlow.js                # Flujo Quiz:
-   │  │  │                              # - leer checkboxes (géneros, precio, año, oferta)
-   │  │  │                              # - llamar /api/recommend/quiz
-   │  │  │                              # - guardar en state y pedir render
-   │  │  │
-   │  │  └─ render.js                  # Render UI:
-   │  │                                 # - pintar tags con frecuencia (badges)
-   │  │                                 # - pintar lista de juegos recomendados (cards)
-   │  │                                 # - mostrar loaders/errores/vacíos
-   │  │
-   │  └─ img/                          # Logos/placeholder imágenes
-   │     ├─ logo.png
-   │     └─ placeholder-game.png
-   │
-   └─ components/                      # (Opcional) “partials” HTML si queréis reutilizar trozos
-      ├─ navbar.html                   # Barra superior común
-      └─ footer.html                   # Pie común
+1. Datos del perfil: ISteamUser/GetPlayerSummaries/v2/
+    * Uso: Saber si el usuario está jugando a algo ahora mismo.
 
+2. Lista de amigos: ISteamUser/GetFriendList/v1/
+    * Uso: Ver quiénes son sus contactos (solo si su perfil es público).
 
-112E7CAE5268A96388B6FB4E3FDCFFB9
+3. Logros de un usuario: ISteamUserStats/GetPlayerAchievements/v1/
+    * Uso: Ver qué retos ha completado el usuario en un appid específico.
+
+## ⚠️ Notas importantes para mejorar:
+* Privacidad: Si el perfil del STEAM_ID que se consulta está en "Privado", la API devolverá un JSON vacío o un error, usando o no la key.
+
+* Límites: Steam permite unas 100,000 peticiones por día con la API Key.
+
+* Seguridad: Usar un archivo .env para guardar la KEY.
+
+## Información de Steam
+2 fuentes de información para la app web:
+
+* Steam Web API (api.steampowered.com) → datos de usuario (biblioteca, perfil, amigos, etc.)
+
+* Steam Store API (store.steampowered.com/api/...) → metadata del juego (géneros, precio, descripción, etc.)
+
+1) Entrada de usuario: vanity → SteamID64
+Si tu web pide “usuario/SteamID”, casi siempre tendrás que resolver vanity URL primero. Hay endpoint específico: ISteamUser/ResolveVanityURL
+
+2) Perfil básico (nombre, avatar, visibilidad)
+**GetPlayerSummaries** (útil para mostrar “quién es” el usuario y comprobar privacidad). Referencia general de Web API
+
+3) Biblioteca + horas jugadas (base de recomendaciones)
+**IPlayerService/GetOwnedGames** → lista de juegos + playtime_forever (ojo con perfiles privados).
+
+4) “Señales” de gusto: recientemente jugados
+**IPlayerService/GetRecentlyPlayedGames**
+
+5) Achievements / stats (si queréis “hardcore score”)
+**ISteamUserStats/GetPlayerAchievements** y/o **GetUserStatsForGame**
+
+6) Noticias del juego
+**ISteamNews/GetNewsForApp**
+
+7) Catálogo: buscar appid / autocompletar
+**ISteamApps/GetAppList/v2** te da el listado masivo (no filtrable)
+
+## Fuentes de información
+* Vanity URL: https://wiki.teamfortress.com/wiki/WebAPI/ResolveVanityURL
+* Perfil de steam: https://developer.valvesoftware.com/wiki/Steam_Web_API
+* Steamworks para información de las llamadas: https://partner.steamgames.com/doc/webapi/iplayerservice
+
