@@ -6,11 +6,13 @@ STORE_URL = 'https://store.steampowered.com/api/appdetails'
 BASE_URL = 'https://api.steampowered.com/'
 API_KEY = '112E7CAE5268A96388B6FB4E3FDCFFB9'
 ID = '76561198185726019'
+user_vanity = "https://steamcommunity.com/id/GabeLoganNewell"
+VAN_ID=''
 
-def get_owned_games(steam_id):
+def get_owned_games(steam_id, key):
     url = f"{BASE_URL}IPlayerService/GetOwnedGames/v1/"
     params = {
-        'key': API_KEY,
+        'key': key,
         'steamid': steam_id,
         'include_appinfo': True,
         'format': 'json'
@@ -51,20 +53,22 @@ if __name__ == '__main__':
     APP_ID = 250900 # The Binding of Isaac: Rebirth
     
     game_data = get_game_details(APP_ID)
-    games = get_owned_games(ID)
+    games = get_owned_games(ID, API_KEY)
     
     if game_data:
-      print(f"Nombre: {game_data['name']}")
-      print(f"Descripción corta: {game_data['short_description'][:100]}...\n")
-      # Descomenta para ver todo el JSON:
-      #print(json.dumps(game_data, indent=2, ensure_ascii=False))
-      if games:
-            # Ordenar por tiempo de juego (minutos) de mayor a menor
-            games_sorted = sorted(games, key=lambda x: x['playtime_forever'], reverse=True)
+        print(f"Nombre: {game_data['name']}")
+        print(f"Descripción corta: {game_data['short_description'][:100]}...\n")
+        # Descomenta para ver todo el JSON:
+        #print(json.dumps(game_data, indent=2, ensure_ascii=False))
+    if games:
+        # Ordenar por tiempo de juego (minutos) de mayor a menor
+        games_sorted = sorted(games, key=lambda x: x['playtime_forever'], reverse=True)
+        #print(games_sorted)
 
-            print(f"{'Juego':<30} | {'Horas jugadas':<10}")
-            print("-" * 45)
-            for game in games_sorted[:10]: # Top 10
-                  hours = round(game['playtime_forever'] / 60, 1)
-                  print(f"{game['name'][:30]:<30} | {hours:<10}")
+        print(f"{'Juego':<30} | {'Horas jugadas':<15} | {'AppId'}")
+        print("-" * 60)
+        for game in games_sorted[:10]: # Top 10
+            hours = round(game['playtime_forever'] / 60, 1)
+            print(f"{game['name'][:30]:<30} | {hours:<15} | {game['appid']}")
 
+    
