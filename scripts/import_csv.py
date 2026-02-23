@@ -87,11 +87,10 @@ def main():
     conn.execute("PRAGMA foreign_keys = ON;")
     cur = conn.cursor()
 
-    # Crear esquema
+    # Crear esquema desde cero
     schema_sql = SCHEMA_PATH.read_text(encoding="utf-8")
     cur.executescript(schema_sql)
 
-    # SQL inserts
     insert_game_sql = """
     INSERT INTO games (
         appid, name, release_date, price, short_description, header_image,
@@ -100,16 +99,33 @@ def main():
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """
 
-    insert_genre_sql = "INSERT OR IGNORE INTO game_genres (appid, genre) VALUES (?, ?)"
-    insert_category_sql = "INSERT OR IGNORE INTO game_categories (appid, category) VALUES (?, ?)"
-    insert_tag_sql = "INSERT OR IGNORE INTO game_tags (appid, tag, weight) VALUES (?, ?, ?)"
-    insert_language_sql = "INSERT OR IGNORE INTO game_languages (appid, language) VALUES (?, ?)"
-    insert_developer_sql = "INSERT OR IGNORE INTO game_developers (appid, developer) VALUES (?, ?)"
-    insert_publisher_sql = "INSERT OR IGNORE INTO game_publishers (appid, publisher) VALUES (?, ?)"
+    insert_genre_sql = """
+    INSERT OR IGNORE INTO game_genres (appid, genre)
+    VALUES (?, ?)
+    """
+
+    insert_tag_sql = """
+    INSERT OR IGNORE INTO game_tags (appid, tag, weight_raw, weight_percent)
+    VALUES (?, ?, ?, ?)
+    """
+
+    insert_language_sql = """
+    INSERT OR IGNORE INTO game_languages (appid, language)
+    VALUES (?, ?)
+    """
+
+    insert_developer_sql = """
+    INSERT OR IGNORE INTO game_developers (appid, developer)
+    VALUES (?, ?)
+    """
+
+    insert_publisher_sql = """
+    INSERT OR IGNORE INTO game_publishers (appid, publisher)
+    VALUES (?, ?)
+    """
 
     game_rows = []
     genre_rows = []
-    category_rows = []
     tag_rows = []
     language_rows = []
     developer_rows = []
@@ -126,11 +142,11 @@ def main():
             # Tabla principal
             game_rows.append((
                 appid,
-                r.get("name", "").strip(),
-                r.get("release_date", "").strip(),
+                (r.get("name") or "").strip(),
+                (r.get("release_date") or "").strip(),
                 to_float(r.get("price")),
-                r.get("short_description", "").strip(),
-                r.get("header_image", "").strip(),
+                (r.get("short_description") or "").strip(),
+                (r.get("header_image") or "").strip(),
                 to_int_bool(r.get("windows")),
                 to_int_bool(r.get("mac")),
                 to_int_bool(r.get("linux")),
@@ -141,18 +157,14 @@ def main():
                 to_int(r.get("discount")),
             ))
 
-            # Listas normalizadas
+            # Tablas normalizadas (listas)
             genres = parse_python_list(r.get("genres"))
-            categories = parse_python_list(r.get("categories"))
             languages = parse_python_list(r.get("supported_languages"))
             developers = parse_python_list(r.get("developers"))
             publishers = parse_python_list(r.get("publishers"))
 
             for genre in genres:
                 genre_rows.append((appid, genre))
-
-            for category in categories:
-                category_rows.append((appid, category))
 
             for language in languages:
                 language_rows.append((appid, language))
@@ -163,15 +175,24 @@ def main():
             for publisher in publishers:
                 publisher_rows.append((appid, publisher))
 
-            # Tags con peso
+            # Tags con porcentaje por juego
             tags_dict = parse_python_dict(r.get("tags"))
-            for tag, weight in tags_dict.items():
-                tag_rows.append((appid, tag, weight))
+            total_tag_weight = sum(v for v in tags_dict.values() if isinstance(v, int) and v > 0)
 
-    # Inserción en transacción
+            for tag, raw_weight in tags_dict.items():
+                if total_tag_weight > 0:
+                    weight_percent = (raw_weight / total_tag_weight) * 100.0
+                else:
+                    weight_percent = 0.0
+
+                # redondeo para guardar más limpio
+                weight_percent = round(weight_percent, 6)
+
+                tag_rows.append((appid, tag, raw_weight, weight_percent))
+
+    # Inserción masiva
     cur.executemany(insert_game_sql, game_rows)
     cur.executemany(insert_genre_sql, genre_rows)
-    cur.executemany(insert_category_sql, category_rows)
     cur.executemany(insert_tag_sql, tag_rows)
     cur.executemany(insert_language_sql, language_rows)
     cur.executemany(insert_developer_sql, developer_rows)
@@ -187,7 +208,6 @@ def main():
     print("Importación completada:")
     print(f"  games:            {count('games')}")
     print(f"  game_genres:      {count('game_genres')}")
-    print(f"  game_categories:  {count('game_categories')}")
     print(f"  game_tags:        {count('game_tags')}")
     print(f"  game_languages:   {count('game_languages')}")
     print(f"  game_developers:  {count('game_developers')}")

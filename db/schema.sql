@@ -2,7 +2,6 @@ DROP TABLE IF EXISTS game_publishers;
 DROP TABLE IF EXISTS game_developers;
 DROP TABLE IF EXISTS game_languages;
 DROP TABLE IF EXISTS game_tags;
-DROP TABLE IF EXISTS game_categories;
 DROP TABLE IF EXISTS game_genres;
 DROP TABLE IF EXISTS games;
 
@@ -30,17 +29,11 @@ CREATE TABLE game_genres (
     FOREIGN KEY (appid) REFERENCES games(appid) ON DELETE CASCADE
 );
 
-CREATE TABLE game_categories (
-    appid INTEGER NOT NULL,
-    category TEXT NOT NULL,
-    PRIMARY KEY (appid, category),
-    FOREIGN KEY (appid) REFERENCES games(appid) ON DELETE CASCADE
-);
-
 CREATE TABLE game_tags (
     appid INTEGER NOT NULL,
     tag TEXT NOT NULL,
-    weight INTEGER DEFAULT 0,
+    weight_raw INTEGER DEFAULT 0,          -- valor original del CSV
+    weight_percent REAL DEFAULT 0,         -- porcentaje dentro del juego (0-100)
     PRIMARY KEY (appid, tag),
     FOREIGN KEY (appid) REFERENCES games(appid) ON DELETE CASCADE
 );
@@ -74,9 +67,9 @@ CREATE INDEX idx_games_release_date ON games(release_date);
 CREATE INDEX idx_games_positive ON games(positive);
 
 CREATE INDEX idx_game_genres_genre ON game_genres(genre);
-CREATE INDEX idx_game_categories_category ON game_categories(category);
 CREATE INDEX idx_game_tags_tag ON game_tags(tag);
-CREATE INDEX idx_game_tags_weight ON game_tags(weight);
+CREATE INDEX idx_game_tags_weight_raw ON game_tags(weight_raw);
+CREATE INDEX idx_game_tags_weight_percent ON game_tags(weight_percent);
 CREATE INDEX idx_game_languages_language ON game_languages(language);
 CREATE INDEX idx_game_developers_developer ON game_developers(developer);
 CREATE INDEX idx_game_publishers_publisher ON game_publishers(publisher);
