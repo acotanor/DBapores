@@ -95,6 +95,28 @@ def obtener_recomendaciones(appid):
     except Exception as e:
         print(f"Error al generar recomendaciones: {e}")
 
+def obtener_top_100_en_2_semanas():
+    url = "https://steamspy.com/api.php?request=top100in2weeks"
+    
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        
+        datos = response.json()
+        
+        print("\nTop 100 juegos más jugados (últimas 2 semanas):")
+        print(f"{'Ranking':<8} | {'Nombre':<40} | {'AppID':<10} | {'Current Players (CCU)':<25}")
+        print("-" * 90)
+        
+        for i, (appid, info) in enumerate(datos.items(), 1):
+            ccu = info.get('ccu', 'N/A')
+            # Algunos nombres pueden ser largos, los cortamos a 39 caracteres
+            nombre = info['name'][:39] 
+            print(f"{i:<8} | {nombre:<40} | {appid:<10} | {ccu}")
+            
+    except Exception as e:
+        print(f"Error al conectar con SteamSpy: {e}")
+
 # Ejecución
 if __name__ == "__main__":
     # 1. Listar shooters generales
@@ -106,3 +128,6 @@ if __name__ == "__main__":
     
     # 3. Recomendaciones basadas en tags
     obtener_recomendaciones(id_apex)
+
+    # 4. Top 100 jugados en 2 semanas
+    obtener_top_100_en_2_semanas()
