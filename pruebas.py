@@ -22,7 +22,7 @@ def obtener_shooters_por_genero():
     except Exception as e:
         print(f"Error al conectar con SteamSpy: {e}")
 
-def obtener_tags_juego(appid, silencioso=False):
+def obtener_tags_juego(appid, silencioso=False, num_tags=5):
     url = f"https://steamspy.com/api.php?request=appdetails&appid={appid}"
     
     try:
@@ -41,8 +41,11 @@ def obtener_tags_juego(appid, silencioso=False):
                 for t, votos in tags_sorted[:20]:
                     print(f"- {t} ({votos} votos)")
             
-            # Devolvemos solo la lista de nombres de tags (los 5 primeros)
-            return [t[0].lower() for t in tags_sorted[:5]]
+            # Devolvemos la lista de nombres de tags
+            if num_tags is not None:
+                return [t[0].lower() for t in tags_sorted[:num_tags]]
+            else:
+                return [t[0].lower() for t in tags_sorted]
         else:
             if not silencioso:
                 print(f"No se encontraron tags para el AppID {appid}.")
@@ -55,7 +58,7 @@ def obtener_tags_juego(appid, silencioso=False):
 
 def obtener_recomendaciones(appid):
     # 1. Obtener los 5 tags más populares del juego base
-    top_5_tags = obtener_tags_juego(appid, silencioso=True)
+    top_5_tags = obtener_tags_juego(appid, silencioso=True, num_tags=5)
     if not top_5_tags:
         print("No se encontraron tags para este juego.")
         return
@@ -138,16 +141,16 @@ def obtener_top_100_tag_en_2_semanas(tag):
         # Comparamos ignorando mayúsculas/minúsculas
         tag_lower = tag.lower()
         
-        print(f"\nTop juegos más jugados ('{tag}' en el top 5 de etiquetas):")
+        print(f"\nTop juegos más jugados ('{tag}' entre sus etiquetas):")
         print(f"{'Ranking Tag':<15} | {'Nombre':<40} | {'AppID':<10} | {'Current Players (CCU)':<25}")
         print("-" * 95)
         
         encontrados = 0
         for i, (appid, info) in enumerate(top_100.items(), 1):
-            # Obtener el top 5 de este juego
-            top_5_juego = obtener_tags_juego(appid, silencioso=True)
+            # Obtener todas las etiquetas de este juego
+            tags_juego = obtener_tags_juego(appid, silencioso=True, num_tags=None)
             
-            if tag_lower in top_5_juego:
+            if tag_lower in tags_juego:
                 encontrados += 1
                 ccu = info.get('ccu', 'N/A')
                 nombre = info['name'][:39]
@@ -159,10 +162,11 @@ def obtener_top_100_tag_en_2_semanas(tag):
     except Exception as e:
         print(f"Error al obtener datos: {e}")
 
-def guardar_top100_con_tags_en_json(nombre_archivo="top100_tags_cache.json"):
+def guardar_top100_con_tags_en_json(nombre_archivo="top100_tags_cache.json", num_tags=5):
     url_top = "https://steamspy.com/api.php?request=top100in2weeks"
     
-    print("Obteniendo top 100 de juegos y sus top 5 tags... (Esto puede tardar un poco)")
+    tags_msg = "todas sus tags" if num_tags is None else f"sus top {num_tags} tags"
+    print(f"Obteniendo top 100 de juegos y {tags_msg}... (Esto puede tardar un poco)")
     
     try:
         response_top = requests.get(url_top)
@@ -172,13 +176,13 @@ def guardar_top100_con_tags_en_json(nombre_archivo="top100_tags_cache.json"):
         datos_guardar = {}
         
         for appid, info in top_100.items():
-            # Obtener el top 5 para este juego
-            top_5_juego = obtener_tags_juego(appid, silencioso=True)
+            # Obtener tags limitados por num_tags
+            tags_juego = obtener_tags_juego(appid, silencioso=True, num_tags=num_tags)
             
             datos_guardar[appid] = {
                 'name': info.get('name', 'Unknown'),
                 'ccu': info.get('ccu', 0),
-                'top_5_tags': top_5_juego
+                'tags': tags_juego
             }
             
         with open(nombre_archivo, 'w', encoding='utf-8') as f:
@@ -200,7 +204,7 @@ def obtener_top_100_tag_en_2_semanas_desde_json(tag, nombre_archivo="top100_tags
             
         tag_lower = tag.lower()
         
-        print(f"\nTop juegos más jugados ('{tag}' en el top 5) [DESDE CACHÉ JSON]:")
+        print(f"\nTop juegos más jugados ('{tag}' en sus etiquetas) [DESDE CACHÉ JSON]:")
         print(f"{'Ranking Tag':<15} | {'Nombre':<40} | {'AppID':<10} | {'Current Players (CCU)':<25}")
         print("-" * 95)
         
@@ -209,9 +213,9 @@ def obtener_top_100_tag_en_2_semanas_desde_json(tag, nombre_archivo="top100_tags
         # Como los iteramos desde el diccionario, queremos mantener el orden de "Ranking General" asumiendo 
         # que el json preserva el orden del top 100 (dict de python > 3.7 preserva el orden de inserción)
         for appid, info in datos_cache.items():
-            top_5_juego = info.get('top_5_tags', [])
+            tags_juego = info.get('tags', info.get('top_5_tags', []))
             
-            if tag_lower in top_5_juego:
+            if tag_lower in tags_juego:
                 encontrados += 1
                 ccu = info.get('ccu', 'N/A')
                 nombre = info['name'][:39]
@@ -236,8 +240,8 @@ def listar_tags_top_100(nombre_archivo="top100_tags_cache.json"):
         
         # Recorrer todos los juegos y contar la frecuencia de cada tag
         for appid, info in datos_cache.items():
-            top_5_juego = info.get('top_5_tags', [])
-            for tag in top_5_juego:
+            tags_juego = info.get('tags', info.get('top_5_tags', []))
+            for tag in tags_juego:
                 # Nos aseguramos de guardarla en minúscula uniforme u original para contar
                 tag_lower = tag.lower()
                 conteo_tags[tag_lower] = conteo_tags.get(tag_lower, 0) + 1
@@ -245,7 +249,7 @@ def listar_tags_top_100(nombre_archivo="top100_tags_cache.json"):
         # Ordenar primero por frecuencia (de mayor a menor) y luego alfabéticamente
         tags_ordenadas = sorted(conteo_tags.items(), key=lambda x: (-x[1], x[0]))
         
-        print("\nTags presentes en el Top 100 actual (basado en el Top 5 de etiquetas por juego):")
+        print(f"\nTags presentes en el Top 100 actual ({len(tags_ordenadas)} tags diferentes en total):")
         print(f"{'Tag':<30} | {'Frecuencia (Juegos)'}")
         print("-" * 55)
         for tag, freq in tags_ordenadas:
@@ -267,15 +271,16 @@ if __name__ == "__main__":
     # Argparse con booleanos se maneja mejor usando action
     # Por defecto la caché la usaremos (es más rápido), y se deshabilita con --no-cache
     parser.add_argument("--no-cache", action="store_false", dest="cache", help="Desactiva el uso de la caché JSON para la búsqueda por tag.")
-    parser.add_argument("--store_cache", action="store_true", help="Actualiza/crea la caché JSON del top 100.")
+    parser.add_argument("--store_cache", nargs='?', const=5, type=int, metavar='N', help="Actualiza/crea la caché JSON del top 100 guardando N tags por juego (por defecto 5. Usa 0 para guardar todas).")
     
     parser.add_argument("--list_tags", action="store_true", help="Lista todas las tags presentes en los juegos del top 100 y su frecuencia.")
 
     args = parser.parse_args()
 
     # Si se pide actualizar la caché, se hace primero
-    if args.store_cache:
-        guardar_top100_con_tags_en_json()
+    if args.store_cache is not None:
+        num_tags = None if args.store_cache == 0 else args.store_cache
+        guardar_top100_con_tags_en_json(num_tags=num_tags)
         
     # Si se pide listar las tags que conforman el top 100 local
     if args.list_tags:
