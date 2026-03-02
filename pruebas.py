@@ -1,6 +1,8 @@
 import requests
 import json
 import os
+import argparse
+
 def obtener_shooters_por_genero():
     # El tag 'Shooter' en Steam tiene el ID '418' o el nombre 'Shooter'
     url = "https://steamspy.com/api.php?request=tag&tag=Shooter"
@@ -221,26 +223,78 @@ def obtener_top_100_tag_en_2_semanas_desde_json(tag, nombre_archivo="top100_tags
     except Exception as e:
         print(f"Error al leer la caché: {e}")
 
+def listar_tags_top_100(nombre_archivo="top100_tags_cache.json"):
+    if not os.path.exists(nombre_archivo):
+        print(f"El archivo {nombre_archivo} no existe. Por favor, genera la caché primero.")
+        return
+        
+    try:
+        with open(nombre_archivo, 'r', encoding='utf-8') as f:
+            datos_cache = json.load(f)
+            
+        conteo_tags = {}
+        
+        # Recorrer todos los juegos y contar la frecuencia de cada tag
+        for appid, info in datos_cache.items():
+            top_5_juego = info.get('top_5_tags', [])
+            for tag in top_5_juego:
+                # Nos aseguramos de guardarla en minúscula uniforme u original para contar
+                tag_lower = tag.lower()
+                conteo_tags[tag_lower] = conteo_tags.get(tag_lower, 0) + 1
+                
+        # Ordenar primero por frecuencia (de mayor a menor) y luego alfabéticamente
+        tags_ordenadas = sorted(conteo_tags.items(), key=lambda x: (-x[1], x[0]))
+        
+        print("\nTags presentes en el Top 100 actual (basado en el Top 5 de etiquetas por juego):")
+        print(f"{'Tag':<30} | {'Frecuencia (Juegos)'}")
+        print("-" * 55)
+        for tag, freq in tags_ordenadas:
+            print(f"{tag.title():<30} | {freq}")
+            
+    except Exception as e:
+        print(f"Error al procesar la caché: {e}")
+
 # Ejecución
 if __name__ == "__main__":
-    # 1. Listar shooters generales
-    # obtener_shooters_por_genero()
+    parser = argparse.ArgumentParser(description="Script para consultar datos de la API de SteamSpy.")
     
-    # 2. Obtener tags de un juego específico
-    id_apex = 1046930
-    # obtener_tags_juego(id_apex)
+    # ID y Tag son búsquedas diferentes, no se deben proporcionar a la vez.
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--id", type=int, help="El ID del juego para buscar sus tags y recomendaciones.")
+    group.add_argument("--tag", type=str, help="La tag por la que buscar en el top 100 (ej. RPG).")
     
-    # 3. Recomendaciones basadas en tags
-    # obtener_recomendaciones(id_apex)
+    parser.add_argument("--top", action="store_true", help="Obtener el top 100 general de juegos más jugados en 2 semanas.")
+    # Argparse con booleanos se maneja mejor usando action
+    # Por defecto la caché la usaremos (es más rápido), y se deshabilita con --no-cache
+    parser.add_argument("--no-cache", action="store_false", dest="cache", help="Desactiva el uso de la caché JSON para la búsqueda por tag.")
+    parser.add_argument("--store_cache", action="store_true", help="Actualiza/crea la caché JSON del top 100.")
+    
+    parser.add_argument("--list_tags", action="store_true", help="Lista todas las tags presentes en los juegos del top 100 y su frecuencia.")
 
-    # 4. Top 100 jugados en 2 semanas
-    # obtener_top_100_en_2_semanas()
-    
-    # 5. Top jugados en 2 semanas por Tag
-    # obtener_top_100_tag_en_2_semanas("RPG")
-    
-    # 6. Generar Caché JSON del top100 y sus tags (Descomentar para crearla/actualizarla la primera vez)
-    # guardar_top100_con_tags_en_json()
-    
-    # 7. Leer top por tag desde la caché JSON
-    obtener_top_100_tag_en_2_semanas_desde_json("RPG")
+    args = parser.parse_args()
+
+    # Si se pide actualizar la caché, se hace primero
+    if args.store_cache:
+        guardar_top100_con_tags_en_json()
+        
+    # Si se pide listar las tags que conforman el top 100 local
+    if args.list_tags:
+        listar_tags_top_100()
+
+    # Si se pide el top 100 general
+    if args.top:
+        obtener_top_100_en_2_semanas()
+
+    # Búsqueda por ID (recomendaciones y tags)
+    if args.id is not None:
+        # Nota: obtener_tags_juego la llamamos pasando silencioso=False implícito
+        obtener_tags_juego(args.id)
+        obtener_recomendaciones(args.id)
+        
+    # Búsqueda por Tag (con o sin caché)
+    elif args.tag is not None:
+        if args.cache:
+            obtener_top_100_tag_en_2_semanas_desde_json(args.tag)
+        else:
+            obtener_top_100_tag_en_2_semanas(args.tag)
+
