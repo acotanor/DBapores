@@ -1,7 +1,7 @@
 import requests
 
 BASE_URL = "https://api.steampowered.com/"
-API_KEY = "112E7CAE5268A96388B6FB4E3FDCFFB9"
+API_KEY = "428BA0E899DAECC321FF9CBBCE3540A6"
 
 
 def resolve_vanity_url(vanity_name, key):
