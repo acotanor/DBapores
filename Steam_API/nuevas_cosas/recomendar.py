@@ -87,7 +87,6 @@ def mostrar_top_tags_frecuentes(lista_juegos, num_tags_por_juego=5, top_n=5):
         print("No se pudieron obtener tags de los juegos seleccionados.")
         return
 
-    print("\nTop tags más frecuentes entre los juegos más jugados:")
     print("-" * 60)
 
     for i, (tag, frecuencia) in enumerate(contador_tags.most_common(top_n), 1):
