@@ -4,7 +4,7 @@ import json
 # La API de detalles de la tienda es distinta a la API de usuarios
 STORE_URL = 'https://store.steampowered.com/api/appdetails'
 BASE_URL = 'https://api.steampowered.com/'
-API_KEY = '112E7CAE5268A96388B6FB4E3FDCFFB9'
+API_KEY = '428BA0E899DAECC321FF9CBBCE3540A6'
 ID = '76561198185726019'
 user_vanity = "https://steamcommunity.com/id/GabeLoganNewell"
 VAN_ID=''
