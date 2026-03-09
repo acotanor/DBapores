@@ -1,74 +1,127 @@
+import os
 import requests
 import json
+import time
+import re
+from dotenv import load_dotenv
 
-# La API de detalles de la tienda es distinta a la API de usuarios
-STORE_URL = 'https://store.steampowered.com/api/appdetails'
-BASE_URL = 'https://api.steampowered.com/'
-API_KEY = '428BA0E899DAECC321FF9CBBCE3540A6'
-ID = '76561198185726019'
-user_vanity = "https://steamcommunity.com/id/GabeLoganNewell"
-VAN_ID=''
+load_dotenv()
+API_KEY = os.getenv('STEAM_API_KEY')
+STEAM_ID = '76561198185726019'
+ARCHIVO_DATOS = 'biblioteca_steam.json'
+
+def cargar_cache():
+    if os.path.exists(ARCHIVO_DATOS):
+        with open(ARCHIVO_DATOS, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return {}
+
+def guardar_cache(datos):
+    with open(ARCHIVO_DATOS, 'w', encoding='utf-8') as f:
+        json.dump(datos, f, indent=4, ensure_ascii=False)
+
+import re
+
+def get_game_extra_info(appid, cache):
+    if str(appid) in cache:
+        return cache[str(appid)]
+
+    #print(f"Consultando información completa para: {appid}...")
+    info = {
+        'nombre': "N/A",
+        'genero': 'N/A', 
+        'desarrollador': 'N/A', 
+        'precio': 'N/A',
+        'metacritic': 'N/A',
+        'espacio_disco': 'N/A',
+        'es_multiplayer': False,
+        'tags': []
+    }
+
+    # 1. SteamSpy: Tags, Desarrollador y Género
+    try:
+        ss_url = f"https://steamspy.com/api.php?request=appdetails&appid={appid}"
+        ss_res = requests.get(ss_url).json()
+        info['nombre'] = ss_res.get('name', 'N/A')
+        info['desarrollador'] = ss_res.get('developer', 'N/A')
+        info['genero'] = ss_res.get('genre', 'N/A')
+        
+        # Extraer los 5 tags con más votos
+        tags_dict = ss_res.get('tags', {})
+        if tags_dict:
+            # Ordenamos los tags por cantidad de votos (valor del dict)
+            sorted_tags = sorted(tags_dict.items(), key=lambda x: x[1], reverse=True)
+            info['tags'] = [tag[0] for tag in sorted_tags[:5]]
+    except: pass
+
+    # 2. Steam Store API: Precio, Metacritic, Espacio y Categorías
+    try:
+        store_url = f"https://store.steampowered.com/api/appdetails?appids={appid}&l=spanish"
+        store_res = requests.get(store_url).json()
+        if store_res and store_res[str(appid)]['success']:
+            data = store_res[str(appid)]['data']
+            
+            # Precio
+            info['precio'] = data.get('price_overview', {}).get('final_formatted', 'Gratis/N/A')
+            
+            # Metacritic
+            info['metacritic'] = data.get('metacritic', {}).get('score', 'N/A')
+            
+            # ¿Es Multiplayer? (Buscamos en categorías)
+            categories = [c.get('description', '').lower() for c in data.get('categories', [])]
+            info['es_multiplayer'] = any('multijugador' in cat or 'multiplayer' in cat for cat in categories)
+
+            # Espacio en disco (Truco: buscamos "GB" o "MB" en requisitos mínimos)
+            requirements = data.get('pc_requirements', {}).get('minimum', '')
+            storage_match = re.search(r'(\d+)\s*(GB|MB)\s*de espacio', requirements, re.IGNORECASE)
+            if storage_match:
+                info['espacio_disco'] = f"{storage_match.group(1)} {storage_match.group(2)}"
+    except: pass
+
+    time.sleep(1.2)
+    return info
 
 def get_owned_games(steam_id, key):
-    url = f"{BASE_URL}IPlayerService/GetOwnedGames/v1/"
-    params = {
-        'key': key,
-        'steamid': steam_id,
-        'include_appinfo': True,
-        'format': 'json'
-    }
+    url = "https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/"
+    params = {'key': key, 'steamid': steam_id, 'include_appinfo': True, 'format': 'json'}
     try:
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        data = response.json()
-        # El resultado viene dentro de ['response']['games']
-        return data.get('response', {}).get('games', [])
-    except Exception as e:
-        print(f"Error: {e}")
-        return []
-    
-def get_game_details(app_id):
-      params = {
-           'appids': app_id,
-           'l': 'spanish'
-      }
-      try:
-        response = requests.get(STORE_URL, params=params)
-        response.raise_for_status() # Lanza error si es 4xx o 5xx
-        
-        data = response.json()
-        
-        # Steam devuelve { "appid": { "success": True/False, "data": {...} } }
-        if data and str(app_id) in data and data[str(app_id)]['success']:
-            return data[str(app_id)]['data']
-        else:
-            print(f"ID {app_id} no encontrado o sin datos públicos.")
-            return None
-      except requests.exceptions.RequestException as e:
-        print(f"Error de conexión: {e}")
-        return None
+        r = requests.get(url, params=params)
+        return r.json().get('response', {}).get('games', [])
+    except: return []
 
 if __name__ == '__main__':
-    #APP_ID= 730 # Counter Strike 2
-    APP_ID = 250900 # The Binding of Isaac: Rebirth
-    
-    game_data = get_game_details(APP_ID)
-    games = get_owned_games(ID, API_KEY)
-    
-    if game_data:
-        print(f"Nombre: {game_data['name']}")
-        print(f"Descripción corta: {game_data['short_description'][:100]}...\n")
-        # Descomenta para ver todo el JSON:
-        #print(json.dumps(game_data, indent=2, ensure_ascii=False))
+    cache = cargar_cache()
+    games = get_owned_games(STEAM_ID, API_KEY)
+
     if games:
-        # Ordenar por tiempo de juego (minutos) de mayor a menor
-        games_sorted = sorted(games, key=lambda x: x['playtime_forever'], reverse=True)
-        #print(games_sorted)
+        # Top 15 juegos
+        top_games = sorted(games, key=lambda x: x['playtime_forever'], reverse=True)[:15]
+        
+        print("\n" + "="*95)
+        print(f"{'JUEGO':<35} | {'HORAS':<7} | {'META':<5} | {'PRECIO':<12} | {'ESPACIO'}")
+        print("="*95)
 
-        print(f"{'Juego':<30} | {'Horas jugadas':<15} | {'AppId'}")
-        print("-" * 60)
-        for game in games_sorted[:10]: # Top 10
+        for game in top_games:
+            appid = game['appid']
+            extra = get_game_extra_info(appid, cache)
+            cache[str(appid)] = extra
+            
             hours = round(game['playtime_forever'] / 60, 1)
-            print(f"{game['name'][:30]:<30} | {hours:<15} | {game['appid']}")
+            
+            # Formatear el nombre para que no rompa la tabla si es muy largo
+            nombre = game['name'][:33] + ".." if len(game['name']) > 33 else game['name']
+            
+            # Fila principal
+            print(f"{nombre:<35} | {hours:<7} | {extra['metacritic']:<5} | {extra['precio']:<12} | {extra['espacio_disco']}")
+            
+            # Fila de detalles (Tags y Multiplayer)
+            multi = " [Multiplayer]" if extra['es_multiplayer'] else " [Solo]"
+            tags_str = ", ".join(extra['tags'][:4]) # Mostramos los primeros 4 tags
+            print(f"  └─ Tags: {tags_str:<50} {multi}")
+            print("-" * 95)
 
-    
+        guardar_cache(cache)
+        print(f"\n[OK] Datos actualizados y guardados en {ARCHIVO_DATOS}")
+        
+    else:
+        print("No se encontraron juegos.")
