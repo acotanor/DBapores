@@ -1,0 +1,302 @@
+[
+    {
+        "appid": "601150",
+        "name": "Devil May Cry 5",
+        "positive": 140260,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "2694490",
+        "name": "Path of Exile 2",
+        "positive": 118511,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "302510",
+        "name": "Ryse: Son of Rome",
+        "positive": 35415,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "219990",
+        "name": "Grim Dawn",
+        "positive": 93489,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "235460",
+        "name": "METAL GEAR RISING: REVENGEANCE",
+        "positive": 79993,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1145360",
+        "name": "Hades",
+        "positive": 274829,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "2384580",
+        "name": "DYNASTY WARRIORS: ORIGINS",
+        "positive": 19369,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "424370",
+        "name": "Wolcen: Lords of Mayhem",
+        "positive": 37846,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "2344520",
+        "name": "Diablo IV",
+        "positive": 32969,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "475150",
+        "name": "Titan Quest Anniversary Edition",
+        "positive": 32295,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "220440",
+        "name": "DmC: Devil May Cry",
+        "positive": 27949,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "899770",
+        "name": "Last Epoch",
+        "positive": 88027,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1089090",
+        "name": "ONE PIECE: PIRATE WARRIORS 4",
+        "positive": 18314,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "238960",
+        "name": "Path of Exile",
+        "positive": 209822,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "200710",
+        "name": "Torchlight II",
+        "positive": 41131,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1817230",
+        "name": "Hi-Fi RUSH",
+        "positive": 32441,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "269210",
+        "name": "Hero Siege",
+        "positive": 29813,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "955050",
+        "name": "Bright Memory",
+        "positive": 29613,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "524220",
+        "name": "NieR:Automata",
+        "positive": 122027,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "460790",
+        "name": "Bayonetta",
+        "positive": 26797,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "553640",
+        "name": "ICEY",
+        "positive": 24297,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1145350",
+        "name": "Hades II",
+        "positive": 60844,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1824220",
+        "name": "Chivalry 2",
+        "positive": 37673,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1599340",
+        "name": "Lost Ark",
+        "positive": 143481,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "2532550",
+        "name": "LIZARDS MUST DIE",
+        "positive": 25241,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "204360",
+        "name": "Castle Crashers",
+        "positive": 120733,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "552500",
+        "name": "Warhammer: Vermintide 2",
+        "positive": 113489,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "1361210",
+        "name": "Warhammer 40,000: Darktide",
+        "positive": 80268,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "992300",
+        "name": "嗜血印 Bloody Spell",
+        "positive": 31311,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "485510",
+        "name": "Nioh: Complete Edition",
+        "positive": 27867,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "2322010",
+        "name": "God of War Ragnarök",
+        "positive": 27127,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "19680",
+        "name": "Alice: Madness Returns",
+        "positive": 21729,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "330020",
+        "name": "Children of Morta",
+        "positive": 18625,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "2334730",
+        "name": "Death Must Die",
+        "positive": 18498,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "232090",
+        "name": "Killing Floor 2",
+        "positive": 111325,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "107100",
+        "name": "Bastion",
+        "positive": 35661,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "233130",
+        "name": "Shadow Warrior",
+        "positive": 24071,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "434650",
+        "name": "Lost Castle / 失落城堡",
+        "positive": 20442,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "1139900",
+        "name": "Ghostrunner",
+        "positive": 57713,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "1371980",
+        "name": "No Rest for the Wicked",
+        "positive": 39563,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "324800",
+        "name": "Shadow Warrior 2",
+        "positive": 23758,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "1113560",
+        "name": "NieR Replicant ver.1.22474487139...",
+        "positive": 22534,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "1593500",
+        "name": "God of War",
+        "positive": 151706,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "1178830",
+        "name": "Bright Memory: Infinite",
+        "positive": 35622,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "99900",
+        "name": "Spiral Knights",
+        "positive": 19869,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "588650",
+        "name": "Dead Cells",
+        "positive": 163549,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "1942280",
+        "name": "Brotato",
+        "positive": 94525,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "460950",
+        "name": "Katana ZERO",
+        "positive": 69672,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "55150",
+        "name": "Warhammer 40,000: Space Marine - Anniversary Edition",
+        "positive": 27915,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "1094520",
+        "name": "Sands of Salzaar",
+        "positive": 18556,
+        "relevancia": 0.1
+    }
+]

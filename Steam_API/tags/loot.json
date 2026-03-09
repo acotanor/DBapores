@@ -1,0 +1,218 @@
+[
+    {
+        "appid": "49520",
+        "name": "Borderlands 2",
+        "positive": 272900,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "899770",
+        "name": "Last Epoch",
+        "positive": 88027,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1286680",
+        "name": "Tiny Tina's Wonderlands",
+        "positive": 15933,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "219990",
+        "name": "Grim Dawn",
+        "positive": 93489,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "375480",
+        "name": "Chronicon",
+        "positive": 8798,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "2344520",
+        "name": "Diablo IV",
+        "positive": 32969,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "868270",
+        "name": "The Cycle: Frontier",
+        "positive": 28893,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "788100",
+        "name": "Neon Abyss",
+        "positive": 19957,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1104280",
+        "name": "The Slormancer",
+        "positive": 5174,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1171690",
+        "name": "Wayfinder",
+        "positive": 14412,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "200710",
+        "name": "Torchlight II",
+        "positive": 41131,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1128920",
+        "name": "EVERSPACE 2",
+        "positive": 10088,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "238960",
+        "name": "Path of Exile",
+        "positive": 209822,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "475150",
+        "name": "Titan Quest Anniversary Edition",
+        "positive": 32295,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "216150",
+        "name": "MapleStory",
+        "positive": 8882,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "758190",
+        "name": "Dragon Cliff",
+        "positive": 6998,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "729040",
+        "name": "Borderlands Game of the Year Enhanced",
+        "positive": 20262,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "424370",
+        "name": "Wolcen: Lords of Mayhem",
+        "positive": 37846,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "261640",
+        "name": "Borderlands: The Pre-Sequel",
+        "positive": 33577,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "1030210",
+        "name": "Torchlight III",
+        "positive": 5225,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "8980",
+        "name": "Borderlands Game of the Year",
+        "positive": 28944,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "527430",
+        "name": "Warhammer 40,000: Inquisitor - Martyr",
+        "positive": 16053,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "397540",
+        "name": "Borderlands 3",
+        "positive": 125248,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "215530",
+        "name": "The Incredible Adventures of Van Helsing",
+        "positive": 8306,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "41500",
+        "name": "Torchlight",
+        "positive": 6319,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "680420",
+        "name": "OUTRIDERS",
+        "positive": 40267,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "1089350",
+        "name": "NBA 2K20",
+        "positive": 30260,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "345180",
+        "name": "Victor Vran ARPG",
+        "positive": 5456,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "632360",
+        "name": "Risk of Rain 2",
+        "positive": 293127,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "2694490",
+        "name": "Path of Exile 2",
+        "positive": 118511,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "102500",
+        "name": "Kingdoms of Amalur: Reckoning",
+        "positive": 11366,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "952860",
+        "name": "河洛群俠傳 (Ho Tu Lo Shu ： The Books of Dragon)",
+        "positive": 8704,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "1645820",
+        "name": "SurrounDead",
+        "positive": 7347,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "246840",
+        "name": "FATE",
+        "positive": 3892,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "548430",
+        "name": "Deep Rock Galactic",
+        "positive": 333587,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "1672970",
+        "name": "Minecraft Dungeons",
+        "positive": 12725,
+        "relevancia": 0.1
+    }
+]

@@ -1,0 +1,302 @@
+[
+    {
+        "appid": "1966720",
+        "name": "Lethal Company",
+        "positive": 473422,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "620",
+        "name": "Portal 2",
+        "positive": 427835,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "400",
+        "name": "Portal",
+        "positive": 175024,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "700330",
+        "name": "SCP: Secret Laboratory",
+        "positive": 195923,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "2881650",
+        "name": "Content Warning",
+        "positive": 137483,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "1172470",
+        "name": "Apex Legends",
+        "positive": 668053,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "311210",
+        "name": "Call of Duty: Black Ops III",
+        "positive": 181306,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "240",
+        "name": "Counter-Strike: Source",
+        "positive": 175426,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "433340",
+        "name": "Slime Rancher",
+        "positive": 135271,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "271590",
+        "name": "Grand Theft Auto V Legacy",
+        "positive": 1739980,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "431960",
+        "name": "Wallpaper Engine",
+        "positive": 876898,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "239140",
+        "name": "Dying Light",
+        "positive": 435687,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "1938090",
+        "name": "Call of Duty: Modern Warfare II",
+        "positive": 419594,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "72850",
+        "name": "The Elder Scrolls V: Skyrim",
+        "positive": 300915,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "107410",
+        "name": "Arma 3",
+        "positive": 256128,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "10",
+        "name": "Counter-Strike",
+        "positive": 243818,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "3164500",
+        "name": "Schedule I",
+        "positive": 200803,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "379720",
+        "name": "DOOM",
+        "positive": 198001,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "1782210",
+        "name": "Crab Game",
+        "positive": 139538,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "1240440",
+        "name": "Halo Infinite",
+        "positive": 123333,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "4000",
+        "name": "Garry's Mod",
+        "positive": 1122546,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "739630",
+        "name": "Phasmophobia",
+        "positive": 736611,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "444090",
+        "name": "Paladins",
+        "positive": 294373,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "220",
+        "name": "Half-Life 2",
+        "positive": 239721,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "976730",
+        "name": "Halo: The Master Chief Collection",
+        "positive": 223635,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "22380",
+        "name": "Fallout: New Vegas",
+        "positive": 218763,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "438100",
+        "name": "VRChat",
+        "positive": 181623,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "3241660",
+        "name": "R.E.P.O.",
+        "positive": 179154,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "1238810",
+        "name": "Battlefield V",
+        "positive": 177352,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "1238840",
+        "name": "Battlefield 1",
+        "positive": 166775,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "1517290",
+        "name": "Battlefield 2042",
+        "positive": 139186,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "379430",
+        "name": "Kingdom Come: Deliverance",
+        "positive": 136446,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "8870",
+        "name": "BioShock Infinite",
+        "positive": 131970,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "730",
+        "name": "Counter-Strike: Global Offensive",
+        "positive": 7642084,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "242760",
+        "name": "The Forest",
+        "positive": 599805,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "548430",
+        "name": "Deep Rock Galactic",
+        "positive": 333587,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "377160",
+        "name": "Fallout 4",
+        "positive": 326054,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "275850",
+        "name": "No Man's Sky",
+        "positive": 293332,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "49520",
+        "name": "Borderlands 2",
+        "positive": 272900,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "1237970",
+        "name": "Titanfall 2",
+        "positive": 244524,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "1326470",
+        "name": "Sons Of The Forest",
+        "positive": 222495,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "1144200",
+        "name": "Ready or Not",
+        "positive": 210654,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "782330",
+        "name": "DOOM Eternal",
+        "positive": 187807,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "393380",
+        "name": "Squad",
+        "positive": 175088,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "70",
+        "name": "Half-Life",
+        "positive": 143086,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "252490",
+        "name": "Rust",
+        "positive": 1071135,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "440",
+        "name": "Team Fortress 2",
+        "positive": 1044264,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "550",
+        "name": "Left 4 Dead 2",
+        "positive": 940221,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "1172620",
+        "name": "Sea of Thieves: 2025 Edition",
+        "positive": 317074,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "552520",
+        "name": "Far Cry 5",
+        "positive": 140377,
+        "relevancia": 0.1
+    }
+]

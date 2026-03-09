@@ -1,0 +1,302 @@
+[
+    {
+        "appid": "526870",
+        "name": "Satisfactory",
+        "positive": 225479,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1313140",
+        "name": "Cult of the Lamb",
+        "positive": 98711,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "427520",
+        "name": "Factorio",
+        "positive": 208770,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "294100",
+        "name": "RimWorld",
+        "positive": 206216,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "644930",
+        "name": "They Are Billions",
+        "positive": 41508,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "457140",
+        "name": "Oxygen Not Included",
+        "positive": 124220,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "588430",
+        "name": "Fallout Shelter",
+        "positive": 65847,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1284190",
+        "name": "The Planet Crafter",
+        "positive": 52168,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "573090",
+        "name": "Stormworks: Build and Rescue",
+        "positive": 47662,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "933110",
+        "name": "Age of Empires III: Definitive Edition",
+        "positive": 40941,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1604030",
+        "name": "V Rising",
+        "positive": 106197,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1366540",
+        "name": "Dyson Sphere Program",
+        "positive": 83095,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1466860",
+        "name": "Age of Empires IV: Anniversary Edition",
+        "positive": 69559,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1203620",
+        "name": "Enshrouded",
+        "positive": 67486,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1213210",
+        "name": "Command & Conquer Remastered Collection",
+        "positive": 29891,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "105450",
+        "name": "Age of Empires III (2007)",
+        "positive": 29126,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "233450",
+        "name": "Prison Architect",
+        "positive": 64439,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "495420",
+        "name": "State of Decay 2: Juggernaut Edition",
+        "positive": 52001,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "505460",
+        "name": "Foxhole",
+        "positive": 36855,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1149460",
+        "name": "ICARUS",
+        "positive": 34070,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1336490",
+        "name": "Against the Storm",
+        "positive": 29837,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "813780",
+        "name": "Age of Empires II: Definitive Edition",
+        "positive": 154061,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "962130",
+        "name": "Grounded",
+        "positive": 75482,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "1363080",
+        "name": "Manor Lords",
+        "positive": 62224,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "466560",
+        "name": "Northgard: Definitive Edition",
+        "positive": 55844,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "251570",
+        "name": "7 Days to Die",
+        "positive": 327889,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "427410",
+        "name": "Abiotic Factor",
+        "positive": 30157,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "1326470",
+        "name": "Sons Of The Forest",
+        "positive": 222495,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "704270",
+        "name": "Generation Zero",
+        "positive": 29053,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "361420",
+        "name": "ASTRONEER",
+        "positive": 118817,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "221380",
+        "name": "Age of Empires II (Retired)",
+        "positive": 97083,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "233860",
+        "name": "Kenshi",
+        "positive": 93712,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "892970",
+        "name": "Valheim",
+        "positive": 471451,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "648800",
+        "name": "Raft",
+        "positive": 323198,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "264710",
+        "name": "Subnautica",
+        "positive": 304449,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "387990",
+        "name": "Scrap Mechanic",
+        "positive": 104512,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "1151340",
+        "name": "Fallout 76",
+        "positive": 89334,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "848450",
+        "name": "Subnautica: Below Zero",
+        "positive": 87607,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "815370",
+        "name": "Green Hell",
+        "positive": 69304,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "200510",
+        "name": "XCOM: Enemy Unknown",
+        "positive": 52717,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "2399830",
+        "name": "ARK: Survival Ascended",
+        "positive": 44880,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "346110",
+        "name": "ARK: Survival Evolved",
+        "positive": 612177,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "323190",
+        "name": "Frostpunk",
+        "positive": 114315,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "282070",
+        "name": "This War of Mine",
+        "positive": 94484,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "895400",
+        "name": "Deadside",
+        "positive": 29504,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "1623730",
+        "name": "Palworld",
+        "positive": 358266,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "3164500",
+        "name": "Schedule I",
+        "positive": 200803,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "1129580",
+        "name": "Medieval Dynasty",
+        "positive": 40992,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "751780",
+        "name": "Forager",
+        "positive": 36751,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "1062090",
+        "name": "Timberborn",
+        "positive": 30266,
+        "relevancia": 0.1
+    }
+]
