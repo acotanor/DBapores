@@ -1,0 +1,272 @@
+[
+    {
+        "appid": "377160",
+        "name": "Fallout 4",
+        "positive": 326054,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1238810",
+        "name": "Battlefield V",
+        "positive": 177352,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1238840",
+        "name": "Battlefield 1",
+        "positive": 166775,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1938090",
+        "name": "Call of Duty: Modern Warfare II",
+        "positive": 419594,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "960090",
+        "name": "Bloons TD 6",
+        "positive": 344269,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "489830",
+        "name": "The Elder Scrolls V: Skyrim Special Edition",
+        "positive": 310162,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "814380",
+        "name": "Sekiro: Shadows Die Twice - GOTY Edition",
+        "positive": 307041,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "990080",
+        "name": "Hogwarts Legacy",
+        "positive": 289966,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "22380",
+        "name": "Fallout: New Vegas",
+        "positive": 218763,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "883710",
+        "name": "Resident Evil 2",
+        "positive": 167647,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1091500",
+        "name": "Cyberpunk 2077",
+        "positive": 713071,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "1237970",
+        "name": "Titanfall 2",
+        "positive": 244524,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "220",
+        "name": "Half-Life 2",
+        "positive": 239721,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "203160",
+        "name": "Tomb Raider Game of the Year",
+        "positive": 238239,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "2050650",
+        "name": "Resident Evil 4",
+        "positive": 177539,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "400",
+        "name": "Portal",
+        "positive": 175024,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "1222140",
+        "name": "Detroit: Become Human",
+        "positive": 162047,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "289070",
+        "name": "Sid Meier’s Civilization VI",
+        "positive": 304053,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "255710",
+        "name": "Cities: Skylines",
+        "positive": 256362,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "1144200",
+        "name": "Ready or Not",
+        "positive": 210654,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "311210",
+        "name": "Call of Duty: Black Ops III",
+        "positive": 181306,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "2358720",
+        "name": "Black Myth: Wukong",
+        "positive": 1111720,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "292030",
+        "name": "The Witcher 3: Wild Hunt",
+        "positive": 802993,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "1174180",
+        "name": "Red Dead Redemption 2",
+        "positive": 676667,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "367520",
+        "name": "Hollow Knight",
+        "positive": 403641,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "322170",
+        "name": "Geometry Dash",
+        "positive": 401026,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "1118200",
+        "name": "People Playground",
+        "positive": 277746,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "1145360",
+        "name": "Hades",
+        "positive": 274829,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "391540",
+        "name": "Undertale",
+        "positive": 264082,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "1293830",
+        "name": "Forza Horizon 4",
+        "positive": 263942,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "1794680",
+        "name": "Vampire Survivors",
+        "positive": 246479,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "261550",
+        "name": "Mount & Blade II: Bannerlord",
+        "positive": 232360,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "8930",
+        "name": "Sid Meier's Civilization V",
+        "positive": 195724,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "646570",
+        "name": "Slay the Spire",
+        "positive": 178250,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "319630",
+        "name": "Life is Strange - Episode 1",
+        "positive": 162769,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "4000",
+        "name": "Garry's Mod",
+        "positive": 1122546,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "250900",
+        "name": "The Binding of Isaac: Rebirth",
+        "positive": 334165,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "264710",
+        "name": "Subnautica",
+        "positive": 304449,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "1229490",
+        "name": "ULTRAKILL",
+        "positive": 165867,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "1245620",
+        "name": "ELDEN RING",
+        "positive": 981540,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "72850",
+        "name": "The Elder Scrolls V: Skyrim",
+        "positive": 300915,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "294100",
+        "name": "RimWorld",
+        "positive": 206216,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "379720",
+        "name": "DOOM",
+        "positive": 198001,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "782330",
+        "name": "DOOM Eternal",
+        "positive": 187807,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "281990",
+        "name": "Stellaris",
+        "positive": 159527,
+        "relevancia": 0.1
+    }
+]

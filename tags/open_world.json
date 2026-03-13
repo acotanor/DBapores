@@ -1,0 +1,302 @@
+[
+    {
+        "appid": "271590",
+        "name": "Grand Theft Auto V Legacy",
+        "positive": 1739980,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "292030",
+        "name": "The Witcher 3: Wild Hunt",
+        "positive": 802993,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1174180",
+        "name": "Red Dead Redemption 2",
+        "positive": 676667,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1623730",
+        "name": "Palworld",
+        "positive": 358266,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "377160",
+        "name": "Fallout 4",
+        "positive": 326054,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "489830",
+        "name": "The Elder Scrolls V: Skyrim Special Edition",
+        "positive": 310162,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "72850",
+        "name": "The Elder Scrolls V: Skyrim",
+        "positive": 300915,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "275850",
+        "name": "No Man's Sky",
+        "positive": 293332,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1245620",
+        "name": "ELDEN RING",
+        "positive": 981540,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "22380",
+        "name": "Fallout: New Vegas",
+        "positive": 218763,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1063730",
+        "name": "New World: Aeternum",
+        "positive": 196798,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1091500",
+        "name": "Cyberpunk 2077",
+        "positive": 713071,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "594650",
+        "name": "Hunt: Showdown 1896",
+        "positive": 181110,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "534380",
+        "name": "Dying Light 2 Stay Human: Reloaded Edition",
+        "positive": 154122,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "812140",
+        "name": "Assassin's Creed Odyssey",
+        "positive": 153091,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "901583",
+        "name": "Grand Theft Auto IV: Complete Edition",
+        "positive": 144570,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "12210",
+        "name": "Grand Theft Auto IV: The Complete Edition",
+        "positive": 144493,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1085660",
+        "name": "Destiny 2",
+        "positive": 497891,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "221100",
+        "name": "DayZ",
+        "positive": 330349,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1172620",
+        "name": "Sea of Thieves: 2025 Edition",
+        "positive": 317074,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "990080",
+        "name": "Hogwarts Legacy",
+        "positive": 289966,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1293830",
+        "name": "Forza Horizon 4",
+        "positive": 263942,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1326470",
+        "name": "Sons Of The Forest",
+        "positive": 222495,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1551360",
+        "name": "Forza Horizon 5",
+        "positive": 199950,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "518790",
+        "name": "theHunter: Call of the Wild",
+        "positive": 157641,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "242760",
+        "name": "The Forest",
+        "positive": 599805,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "108600",
+        "name": "Project Zomboid",
+        "positive": 355171,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "261550",
+        "name": "Mount & Blade II: Bannerlord",
+        "positive": 232360,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "526870",
+        "name": "Satisfactory",
+        "positive": 225479,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "252490",
+        "name": "Rust",
+        "positive": 1071135,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "270880",
+        "name": "American Truck Simulator",
+        "positive": 169735,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "48700",
+        "name": "Mount & Blade: Warband",
+        "positive": 162632,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "227300",
+        "name": "Euro Truck Simulator 2",
+        "positive": 844480,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "346110",
+        "name": "ARK: Survival Evolved",
+        "positive": 612177,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "892970",
+        "name": "Valheim",
+        "positive": 471451,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "582010",
+        "name": "Monster Hunter: World",
+        "positive": 434239,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "251570",
+        "name": "7 Days to Die",
+        "positive": 327889,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "264710",
+        "name": "Subnautica",
+        "positive": 304449,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "304930",
+        "name": "Unturned",
+        "positive": 506516,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "322330",
+        "name": "Don't Starve Together",
+        "positive": 475393,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "239140",
+        "name": "Dying Light",
+        "positive": 435687,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "3164500",
+        "name": "Schedule I",
+        "positive": 200803,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "648800",
+        "name": "Raft",
+        "positive": 323198,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "284160",
+        "name": "BeamNG.drive",
+        "positive": 313873,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "107410",
+        "name": "Arma 3",
+        "positive": 256128,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "814380",
+        "name": "Sekiro: Shadows Die Twice - GOTY Edition",
+        "positive": 307041,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "438100",
+        "name": "VRChat",
+        "positive": 181623,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "427520",
+        "name": "Factorio",
+        "positive": 208770,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "477160",
+        "name": "Human Fall Flat",
+        "positive": 202253,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "211820",
+        "name": "Starbound",
+        "positive": 152150,
+        "relevancia": 0.1
+    }
+]

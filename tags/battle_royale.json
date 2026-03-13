@@ -1,0 +1,302 @@
+[
+    {
+        "appid": "1203220",
+        "name": "NARAKA: BLADEPOINT",
+        "positive": 225960,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1172470",
+        "name": "Apex Legends",
+        "positive": 668053,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "578080",
+        "name": "PUBG: BATTLEGROUNDS",
+        "positive": 1520457,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "813820",
+        "name": "Realm Royale",
+        "positive": 43223,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "843380",
+        "name": "Super Animal Royale",
+        "positive": 39667,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1677740",
+        "name": "Stumble Guys",
+        "positive": 108841,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "884660",
+        "name": "CRSED: F.O.A.D.",
+        "positive": 30411,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1097150",
+        "name": "Fall Guys: Ultimate Knockout",
+        "positive": 385154,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "755790",
+        "name": "Ring of Elysium",
+        "positive": 74345,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "544920",
+        "name": "Darwin Project",
+        "positive": 14978,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "760160",
+        "name": "Vampire: The Masquerade - Bloodhunt",
+        "positive": 43433,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "879160",
+        "name": "Battlerite Royale",
+        "positive": 6088,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "809960",
+        "name": "Radical Heights",
+        "positive": 6072,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "893520",
+        "name": "Creative Destruction",
+        "positive": 14571,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1557990",
+        "name": "Retail Royale",
+        "positive": 4192,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1782210",
+        "name": "Crab Game",
+        "positive": 139538,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1209040",
+        "name": "Cyber Hunter",
+        "positive": 7919,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "788260",
+        "name": "Rules Of Survival",
+        "positive": 3103,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1104450",
+        "name": "Bombergrounds: Battle Royale",
+        "positive": 7240,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "308600",
+        "name": "Gene Shift Auto",
+        "positive": 2028,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1375740",
+        "name": "Surviv.io - 2D Battle Royale",
+        "positive": 1843,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "805940",
+        "name": "RUSSIA BATTLEGROUNDS",
+        "positive": 3424,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "728540",
+        "name": "Islands of Nyne: Battle Royale",
+        "positive": 3387,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1805360",
+        "name": "Bounty game",
+        "positive": 2553,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "820520",
+        "name": "Deceive Inc.",
+        "positive": 6236,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "433850",
+        "name": "Z1 Battle Royale",
+        "positive": 113729,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "1094710",
+        "name": "Royal Crown",
+        "positive": 2208,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "691260",
+        "name": "POPULATION: ONE",
+        "positive": 2070,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1399780",
+        "name": "Spellbreak",
+        "positive": 12119,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "437220",
+        "name": "The Culling",
+        "positive": 9960,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1226470",
+        "name": "Shadow Arena",
+        "positive": 3064,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "765410",
+        "name": "Bean Battles",
+        "positive": 9227,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "764050",
+        "name": "Maelstrom",
+        "positive": 2139,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "2719160",
+        "name": "Contractors Showdown : ExfilZone",
+        "positive": 1669,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "513560",
+        "name": "Hunger Dungeon",
+        "positive": 1645,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1158940",
+        "name": "Blazing Sails",
+        "positive": 8454,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "1911390",
+        "name": "Knightfall: A Daring Journey",
+        "positive": 6909,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "783770",
+        "name": "Ironsight",
+        "positive": 16204,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "939510",
+        "name": "Pandemic Express - Zombie Escape",
+        "positive": 2661,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "766370",
+        "name": "Dying Light: Bad Blood",
+        "positive": 2593,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "619080",
+        "name": "SOS",
+        "positive": 1880,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "840140",
+        "name": "武侠乂 The Swordsmen X",
+        "positive": 1667,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "1273710",
+        "name": "King of Crabs",
+        "positive": 7102,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "976800",
+        "name": "九劫曲：诅咒之地 NINE TRIALS",
+        "positive": 2013,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "1785150",
+        "name": "Friends vs Friends",
+        "positive": 11066,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "747610",
+        "name": "Zula Global",
+        "positive": 5310,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "690510",
+        "name": "Immortal Soul: Black Survival",
+        "positive": 4410,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "921060",
+        "name": "Modern Combat 5",
+        "positive": 3130,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "506540",
+        "name": "Last Man Standing",
+        "positive": 10776,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "823130",
+        "name": "Totally Accurate Battlegrounds",
+        "positive": 76919,
+        "relevancia": 0.2
+    }
+]

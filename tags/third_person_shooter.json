@@ -1,0 +1,302 @@
+[
+    {
+        "appid": "632360",
+        "name": "Risk of Rain 2",
+        "positive": 293127,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "553850",
+        "name": "HELLDIVERS 2",
+        "positive": 775883,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "50300",
+        "name": "Spec Ops: The Line",
+        "positive": 51267,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "204100",
+        "name": "Max Payne 3",
+        "positive": 49420,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1693980",
+        "name": "Dead Space",
+        "positive": 46485,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "2183900",
+        "name": "Warhammer 40,000: Space Marine 2",
+        "positive": 134739,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "208090",
+        "name": "Loadout",
+        "positive": 34218,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "230410",
+        "name": "Warframe",
+        "positive": 545393,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "2050650",
+        "name": "Resident Evil 4",
+        "positive": 177539,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "55150",
+        "name": "Warhammer 40,000: Space Marine - Anniversary Edition",
+        "positive": 27915,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "47780",
+        "name": "Dead Space 2",
+        "positive": 24396,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "225540",
+        "name": "Just Cause 3",
+        "positive": 102532,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "365590",
+        "name": "Tom Clancy’s The Division",
+        "positive": 65652,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "221040",
+        "name": "Resident Evil 6",
+        "positive": 42993,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "680420",
+        "name": "OUTRIDERS",
+        "positive": 40267,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1922560",
+        "name": "Plants vs. Zombies Garden Warfare 2: Deluxe Edition",
+        "positive": 30964,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1544020",
+        "name": "The Callisto Protocol",
+        "positive": 25601,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "206420",
+        "name": "Saints Row IV: Re-Elected",
+        "positive": 67768,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "55230",
+        "name": "Saints Row: The Third",
+        "positive": 65644,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "1237950",
+        "name": "STAR WARS Battlefront II",
+        "positive": 62342,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "6060",
+        "name": "STAR WARS Battlefront II (Classic, 2005)",
+        "positive": 50396,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "1282100",
+        "name": "REMNANT II",
+        "positive": 50249,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "760160",
+        "name": "Vampire: The Masquerade - Bloodhunt",
+        "positive": 43433,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "21690",
+        "name": "Resident Evil 5",
+        "positive": 42807,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "578080",
+        "name": "PUBG: BATTLEGROUNDS",
+        "positive": 1520457,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "254700",
+        "name": "Resident Evil 4 (2005)",
+        "positive": 77003,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "203140",
+        "name": "Hitman: Absolution",
+        "positive": 51769,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "617290",
+        "name": "Remnant: From the Ashes",
+        "positive": 44761,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "1088850",
+        "name": "Marvel's Guardians of the Galaxy",
+        "positive": 36857,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "1144400",
+        "name": "Senren＊Banka",
+        "positive": 30868,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "1659420",
+        "name": "UNCHARTED: Legacy of Thieves Collection",
+        "positive": 26740,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "203160",
+        "name": "Tomb Raider Game of the Year",
+        "positive": 238239,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "1888930",
+        "name": "The Last of Us Part I",
+        "positive": 63713,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "8190",
+        "name": "Just Cause 2",
+        "positive": 46001,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "50130",
+        "name": "Mafia II (Classic)",
+        "positive": 51876,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "1328670",
+        "name": "Mass Effect Legendary Edition",
+        "positive": 51295,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "243470",
+        "name": "Watch_Dogs",
+        "positive": 35770,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "895400",
+        "name": "Deadside",
+        "positive": 29504,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "774801",
+        "name": "Crab Champions",
+        "positive": 26307,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "474960",
+        "name": "Quantum Break",
+        "positive": 24117,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "113400",
+        "name": "APB Reloaded",
+        "positive": 23693,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "901583",
+        "name": "Grand Theft Auto IV: Complete Edition",
+        "positive": 144570,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "12210",
+        "name": "Grand Theft Auto IV: The Complete Edition",
+        "positive": 144493,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "1030840",
+        "name": "Mafia: Definitive Edition",
+        "positive": 79686,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "755790",
+        "name": "Ring of Elysium",
+        "positive": 74345,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "813820",
+        "name": "Realm Royale",
+        "positive": 43223,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "17470",
+        "name": "Dead Space (2008)",
+        "positive": 25388,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "2231380",
+        "name": "Tom Clancy's Ghost Recon Breakpoint",
+        "positive": 23816,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "460930",
+        "name": "Tom Clancy's Ghost Recon Wildlands",
+        "positive": 77138,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "1404210",
+        "name": "Red Dead Online",
+        "positive": 55526,
+        "relevancia": 0.1
+    }
+]

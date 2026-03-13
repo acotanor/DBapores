@@ -1,0 +1,302 @@
+[
+    {
+        "appid": "105600",
+        "name": "Terraria",
+        "positive": 1373979,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "346110",
+        "name": "ARK: Survival Evolved",
+        "positive": 612177,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "242760",
+        "name": "The Forest",
+        "positive": 599805,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "892970",
+        "name": "Valheim",
+        "positive": 471451,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "264710",
+        "name": "Subnautica",
+        "positive": 304449,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "211820",
+        "name": "Starbound",
+        "positive": 152150,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "322330",
+        "name": "Don't Starve Together",
+        "positive": 475393,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "848450",
+        "name": "Subnautica: Below Zero",
+        "positive": 87607,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "275850",
+        "name": "No Man's Sky",
+        "positive": 293332,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "815370",
+        "name": "Green Hell",
+        "positive": 69304,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1284190",
+        "name": "The Planet Crafter",
+        "positive": 52168,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "751780",
+        "name": "Forager",
+        "positive": 36751,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "313120",
+        "name": "Stranded Deep",
+        "positive": 34118,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "219740",
+        "name": "Don't Starve",
+        "positive": 106118,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "305620",
+        "name": "The Long Dark",
+        "positive": 101846,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "513710",
+        "name": "SCUM",
+        "positive": 83704,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "648800",
+        "name": "Raft",
+        "positive": 323198,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1062520",
+        "name": "Dinkum",
+        "positive": 22671,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "299740",
+        "name": "Miscreated",
+        "positive": 20860,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1621690",
+        "name": "Core Keeper",
+        "positive": 51042,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "858820",
+        "name": "Tribes of Midgard",
+        "positive": 17197,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1169040",
+        "name": "Necesse",
+        "positive": 15988,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "738520",
+        "name": "Breathedge",
+        "positive": 12620,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1149460",
+        "name": "ICARUS",
+        "positive": 34070,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "361420",
+        "name": "ASTRONEER",
+        "positive": 118817,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "895400",
+        "name": "Deadside",
+        "positive": 29504,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "2080690",
+        "name": "Sunkenland",
+        "positive": 17523,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1371580",
+        "name": "Myth of Empires",
+        "positive": 11440,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1928980",
+        "name": "Nightingale",
+        "positive": 10981,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "252490",
+        "name": "Rust",
+        "positive": 1071135,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "427410",
+        "name": "Abiotic Factor",
+        "positive": 30157,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "244850",
+        "name": "Space Engineers",
+        "positive": 117204,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "383120",
+        "name": "Empyrion - Galactic Survival",
+        "positive": 26195,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "962130",
+        "name": "Grounded",
+        "positive": 75482,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1374490",
+        "name": "RuneScape: Dragonwilds",
+        "positive": 15430,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1623730",
+        "name": "Palworld",
+        "positive": 358266,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "108600",
+        "name": "Project Zomboid",
+        "positive": 355171,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "251570",
+        "name": "7 Days to Die",
+        "positive": 327889,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "2646460",
+        "name": "Soulmask",
+        "positive": 11979,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "285920",
+        "name": "TerraTech",
+        "positive": 21368,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "440900",
+        "name": "Conan Exiles",
+        "positive": 84575,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "250400",
+        "name": "How to Survive",
+        "positive": 14071,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "393420",
+        "name": "Hurtworld",
+        "positive": 23689,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "1307550",
+        "name": "Craftopia",
+        "positive": 15406,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "707010",
+        "name": "Will To Live Online",
+        "positive": 12263,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "625960",
+        "name": "Stoneshard",
+        "positive": 22298,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "371660",
+        "name": "Far Cry Primal",
+        "positive": 28267,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "280790",
+        "name": "Creativerse",
+        "positive": 24051,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "265550",
+        "name": "Dead Rising 3 Apocalypse Edition",
+        "positive": 14615,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "239140",
+        "name": "Dying Light",
+        "positive": 435687,
+        "relevancia": 0.2
+    }
+]

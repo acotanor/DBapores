@@ -1,0 +1,194 @@
+[
+    {
+        "appid": "477160",
+        "name": "Human Fall Flat",
+        "positive": 202253,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "674940",
+        "name": "Stick Fight: The Game",
+        "positive": 114720,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "265930",
+        "name": "Goat Simulator",
+        "positive": 62249,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "508440",
+        "name": "Totally Accurate Battle Simulator",
+        "positive": 132974,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "238460",
+        "name": "BattleBlock Theater",
+        "positive": 69617,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "2881650",
+        "name": "Content Warning",
+        "positive": 137483,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "213670",
+        "name": "South Park: The Stick of Truth",
+        "positive": 66636,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "471710",
+        "name": "Rec Room",
+        "positive": 63756,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1533390",
+        "name": "Gorilla Tag",
+        "positive": 64966,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "391540",
+        "name": "Undertale",
+        "positive": 264082,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "438100",
+        "name": "VRChat",
+        "positive": 181623,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "204360",
+        "name": "Castle Crashers",
+        "positive": 120733,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "223470",
+        "name": "POSTAL 2",
+        "positive": 112414,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "1677740",
+        "name": "Stumble Guys",
+        "positive": 108841,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "4000",
+        "name": "Garry's Mod",
+        "positive": 1122546,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "55230",
+        "name": "Saints Row: The Third",
+        "positive": 65644,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "945360",
+        "name": "Among Us",
+        "positive": 643681,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "1966720",
+        "name": "Lethal Company",
+        "positive": 473422,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "620",
+        "name": "Portal 2",
+        "positive": 427835,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "728880",
+        "name": "Overcooked! 2",
+        "positive": 65992,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "2231450",
+        "name": "Pizza Tower",
+        "positive": 65599,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "240720",
+        "name": "Getting Over It with Bennett Foddy",
+        "positive": 63479,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "431240",
+        "name": "Golf With Your Friends",
+        "positive": 59105,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "1097150",
+        "name": "Fall Guys: Ultimate Knockout",
+        "positive": 385154,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "433340",
+        "name": "Slime Rancher",
+        "positive": 135271,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "638970",
+        "name": "Yakuza 0",
+        "positive": 70292,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "440",
+        "name": "Team Fortress 2",
+        "positive": 1044264,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "206420",
+        "name": "Saints Row IV: Re-Elected",
+        "positive": 67768,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "49520",
+        "name": "Borderlands 2",
+        "positive": 272900,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "400",
+        "name": "Portal",
+        "positive": 175024,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "1454400",
+        "name": "Cookie Clicker",
+        "positive": 77218,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "636480",
+        "name": "Ravenfield",
+        "positive": 71341,
+        "relevancia": 0.1
+    }
+]

@@ -1,0 +1,266 @@
+[
+    {
+        "appid": "1599340",
+        "name": "Lost Ark",
+        "positive": 143481,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "39210",
+        "name": "FINAL FANTASY XIV Online",
+        "positive": 70254,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "582660",
+        "name": "Black Desert",
+        "positive": 64416,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "306130",
+        "name": "The Elder Scrolls Online",
+        "positive": 125497,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "761890",
+        "name": "Albion Online",
+        "positive": 65583,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1284210",
+        "name": "Guild Wars 2",
+        "positive": 19151,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1063730",
+        "name": "New World: Aeternum",
+        "positive": 196798,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1343370",
+        "name": "Old School RuneScape",
+        "positive": 15244,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "200210",
+        "name": "Realm of the Mad God Exalt",
+        "positive": 38723,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "372000",
+        "name": "Tree of Savior (English Ver.)",
+        "positive": 13046,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "109600",
+        "name": "Neverwinter",
+        "positive": 29947,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "216150",
+        "name": "MapleStory",
+        "positive": 8882,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1170950",
+        "name": "Mortal Online 2",
+        "positive": 7870,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1343400",
+        "name": "RuneScape ",
+        "positive": 20941,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "429790",
+        "name": "AdventureQuest 3D",
+        "positive": 7584,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "327070",
+        "name": "Gloria Victis: Medieval MMORPG",
+        "positive": 7014,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1286830",
+        "name": "STAR WARS: The Old Republic",
+        "positive": 60864,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "212500",
+        "name": "The Lord of the Rings Online",
+        "positive": 17099,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1254120",
+        "name": "Bless Unleashed",
+        "positive": 16259,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "550900",
+        "name": "Metin2",
+        "positive": 10212,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "39120",
+        "name": "RIFT",
+        "positive": 8347,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "2064650",
+        "name": "Tower of Fantasy",
+        "positive": 7595,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "799960",
+        "name": "Wizard101",
+        "positive": 6721,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1085660",
+        "name": "Destiny 2",
+        "positive": 497891,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "24200",
+        "name": "DC Universe Online",
+        "positive": 16923,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "630100",
+        "name": "SoulWorker - Anime Action MMO",
+        "positive": 11048,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "268420",
+        "name": "Aura Kingdom",
+        "positive": 6676,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "2694490",
+        "name": "Path of Exile 2",
+        "positive": 118511,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "1476970",
+        "name": "Legends of IdleOn - Idle MMO",
+        "positive": 17310,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1180380",
+        "name": "Stay Out",
+        "positive": 16994,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1056640",
+        "name": "Phantasy Star Online 2",
+        "positive": 16848,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1371580",
+        "name": "Myth of Empires",
+        "positive": 11440,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "215080",
+        "name": "WAKFU",
+        "positive": 7744,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "442080",
+        "name": "Riders of Icarus",
+        "positive": 7083,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "238960",
+        "name": "Path of Exile",
+        "positive": 209822,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "9900",
+        "name": "Star Trek Online",
+        "positive": 15939,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "304050",
+        "name": "Trove",
+        "positive": 74103,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "1377580",
+        "name": "Soulworker",
+        "positive": 7552,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "237310",
+        "name": "Elsword",
+        "positive": 7057,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "311310",
+        "name": "Naval Action",
+        "positive": 7428,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "386360",
+        "name": "SMITE",
+        "positive": 94368,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "744900",
+        "name": "Dead Frontier 2",
+        "positive": 18844,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "438040",
+        "name": "Shakes and Fidget",
+        "positive": 33837,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "707010",
+        "name": "Will To Live Online",
+        "positive": 12263,
+        "relevancia": 0.1
+    }
+]

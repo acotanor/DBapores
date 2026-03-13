@@ -1,0 +1,302 @@
+[
+    {
+        "appid": "2669320",
+        "name": "EA SPORTS FC 25",
+        "positive": 37253,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1506830",
+        "name": "FIFA 22",
+        "positive": 97293,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1259970",
+        "name": "eFootball PES 2021 SEASON UPDATE",
+        "positive": 29393,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1811260",
+        "name": "EA SPORTS FIFA 23",
+        "positive": 86192,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "460920",
+        "name": "Steep",
+        "positive": 25437,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1644960",
+        "name": "NBA 2K22",
+        "positive": 22503,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1263850",
+        "name": "Football Manager 2021",
+        "positive": 22342,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1583320",
+        "name": "Pro Soccer Online",
+        "positive": 21717,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "2195250",
+        "name": "EA SPORTS FC 24",
+        "positive": 63281,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1569040",
+        "name": "Football Manager 2022",
+        "positive": 19861,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "2878980",
+        "name": "NBA 2K25",
+        "positive": 18767,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "996470",
+        "name": "eFootball  PES 2020",
+        "positive": 18667,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "681280",
+        "name": "Descenders",
+        "positive": 18141,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "2338770",
+        "name": "NBA 2K24",
+        "positive": 13567,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "1089350",
+        "name": "NBA 2K20",
+        "positive": 30260,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1100600",
+        "name": "Football Manager 2020",
+        "positive": 28341,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "252950",
+        "name": "Rocket League",
+        "positive": 509445,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "2252570",
+        "name": "Football Manager 2024",
+        "positive": 20927,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1904540",
+        "name": "Football Manager 2023",
+        "positive": 17645,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1225330",
+        "name": "NBA 2K21",
+        "positive": 16233,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1313860",
+        "name": "EA SPORTS FIFA 21",
+        "positive": 42906,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "670290",
+        "name": "Real Pool 3D - Poolians",
+        "positive": 13042,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "861650",
+        "name": "Session: Skate Sim",
+        "positive": 12016,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "1080110",
+        "name": "F1 2020",
+        "positive": 37531,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1919590",
+        "name": "NBA 2K23",
+        "positive": 31908,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1134570",
+        "name": "F1 2021",
+        "positive": 30062,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "928600",
+        "name": "F1 2019",
+        "positive": 19965,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "47870",
+        "name": "Need For Speed: Hot Pursuit",
+        "positive": 16490,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "2290180",
+        "name": "Riders Republic",
+        "positive": 16364,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "431240",
+        "name": "Golf With Your Friends",
+        "positive": 59105,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1692250",
+        "name": "F1 22",
+        "positive": 17694,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "962730",
+        "name": "Skater XL - The Ultimate Skateboarding Game",
+        "positive": 16733,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "737800",
+        "name": "F1 2018",
+        "positive": 11911,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1665460",
+        "name": "eFootball",
+        "positive": 44067,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "571740",
+        "name": "Golf It!",
+        "positive": 26261,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "2707900",
+        "name": "NIGHT-RUNNERS PROLOGUE",
+        "positive": 17531,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "415200",
+        "name": "Motorsport Manager",
+        "positive": 12504,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "380600",
+        "name": "Fishing Planet",
+        "positive": 57004,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "1262580",
+        "name": "Need for Speed Payback",
+        "positive": 24868,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "212480",
+        "name": "Sonic & All-Stars Racing Transformed Collection",
+        "positive": 16039,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "2108330",
+        "name": "F1 23",
+        "positive": 15059,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "690790",
+        "name": "DiRT Rally 2.0",
+        "positive": 39383,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "421020",
+        "name": "DiRT 4",
+        "positive": 12971,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "244210",
+        "name": "Assetto Corsa",
+        "positive": 140238,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "805550",
+        "name": "Assetto Corsa Competizione",
+        "positive": 36035,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "378860",
+        "name": "Project CARS 2",
+        "positive": 14903,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "1451190",
+        "name": "Undisputed",
+        "positive": 12158,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "228380",
+        "name": "Wreckfest",
+        "positive": 34031,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "362930",
+        "name": "Garfield Kart",
+        "positive": 12325,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "394310",
+        "name": "Punch Club",
+        "positive": 11986,
+        "relevancia": 0.1
+    }
+]

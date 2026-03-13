@@ -1,0 +1,236 @@
+[
+    {
+        "appid": "1063730",
+        "name": "New World: Aeternum",
+        "positive": 196798,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "505460",
+        "name": "Foxhole",
+        "positive": 36855,
+        "relevancia": 1.0
+    },
+    {
+        "appid": "433850",
+        "name": "Z1 Battle Royale",
+        "positive": 113729,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "582660",
+        "name": "Black Desert",
+        "positive": 64416,
+        "relevancia": 0.9
+    },
+    {
+        "appid": "39210",
+        "name": "FINAL FANTASY XIV Online",
+        "positive": 70254,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "218230",
+        "name": "PlanetSide 2",
+        "positive": 59598,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "1824220",
+        "name": "Chivalry 2",
+        "positive": 37673,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "438040",
+        "name": "Shakes and Fidget",
+        "positive": 33837,
+        "relevancia": 0.8
+    },
+    {
+        "appid": "635260",
+        "name": "CarX Drift Racing Online",
+        "positive": 79504,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "761890",
+        "name": "Albion Online",
+        "positive": 65583,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "1097150",
+        "name": "Fall Guys: Ultimate Knockout",
+        "positive": 385154,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "418460",
+        "name": "Rising Storm 2: Vietnam",
+        "positive": 49952,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "242860",
+        "name": "Verdun",
+        "positive": 32142,
+        "relevancia": 0.7
+    },
+    {
+        "appid": "823130",
+        "name": "Totally Accurate Battlegrounds",
+        "positive": 76919,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "295110",
+        "name": "Just Survive",
+        "positive": 45716,
+        "relevancia": 0.6
+    },
+    {
+        "appid": "671860",
+        "name": "BattleBit Remastered",
+        "positive": 120458,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "646910",
+        "name": "The Crew 2",
+        "positive": 72724,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "397900",
+        "name": "Business Tour - Board Game with Online Multiplayer",
+        "positive": 46567,
+        "relevancia": 0.5
+    },
+    {
+        "appid": "438100",
+        "name": "VRChat",
+        "positive": 181623,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "513710",
+        "name": "SCUM",
+        "positive": 83704,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "359320",
+        "name": "Elite Dangerous",
+        "positive": 77388,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "471710",
+        "name": "Rec Room",
+        "positive": 63756,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "454650",
+        "name": "DRAGON BALL XENOVERSE 2",
+        "positive": 47781,
+        "relevancia": 0.4
+    },
+    {
+        "appid": "1599340",
+        "name": "Lost Ark",
+        "positive": 143481,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "444200",
+        "name": "World of Tanks Blitz",
+        "positive": 116407,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "301520",
+        "name": "Robocraft",
+        "positive": 86240,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "376210",
+        "name": "The Isle",
+        "positive": 77185,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "755790",
+        "name": "Ring of Elysium",
+        "positive": 74345,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "380600",
+        "name": "Fishing Planet",
+        "positive": 57004,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "843380",
+        "name": "Super Animal Royale",
+        "positive": 39667,
+        "relevancia": 0.3
+    },
+    {
+        "appid": "230410",
+        "name": "Warframe",
+        "positive": 545393,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "221100",
+        "name": "DayZ",
+        "positive": 330349,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "1203220",
+        "name": "NARAKA: BLADEPOINT",
+        "positive": 225960,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "1238810",
+        "name": "Battlefield V",
+        "positive": 177352,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "306130",
+        "name": "The Elder Scrolls Online",
+        "positive": 125497,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "227940",
+        "name": "Heroes & Generals",
+        "positive": 96499,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "1286830",
+        "name": "STAR WARS: The Old Republic",
+        "positive": 60864,
+        "relevancia": 0.2
+    },
+    {
+        "appid": "440900",
+        "name": "Conan Exiles",
+        "positive": 84575,
+        "relevancia": 0.1
+    },
+    {
+        "appid": "1407200",
+        "name": "World of Tanks",
+        "positive": 72570,
+        "relevancia": 0.1
+    }
+]
