@@ -1,21 +1,6 @@
-# Windows
+# Steam Recommender con Flask
 
-npm.cmd install  
+## Instalación
 
-
-$env:STEAM_API_KEY="428BA0E899DAECC321FF9CBBCE3540A6"
-
-
-npm.cmd start
-
----
-
-# Linux 
-
-npm install
-
-
-export STEAM_API_KEY="428BA0E899DAECC321FF9CBBCE3540A6"
-
-
-npm start
+```bash
+python -m venv .venv
