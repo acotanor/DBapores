@@ -3,6 +3,7 @@ import re
 import math
 import json
 import argparse
+import csv
 import unicodedata
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from flask import Flask, request, jsonify, render_template
@@ -14,11 +15,30 @@ PORT = int(os.environ.get('PORT', 3000))
 STEAM_API_KEY = os.environ.get('STEAM_API_KEY', 'TU_API_KEY_AQUI')
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TAGS_DIR = os.path.join(BASE_DIR, 'tags')
+APP_LIST_PATH = os.path.join(BASE_DIR, 'Steam_API', 'data', 'app_list.csv')
 STEAM_API_BASE_URL = 'https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/'
 STEAMSPY_URL = 'https://steamspy.com/api.php'
 
 steamSpyCache = {}
 tagFileCache = {}
+app_name_to_id_cache = None
+
+def get_appid_by_name(name):
+    global app_name_to_id_cache
+    if app_name_to_id_cache is None:
+        app_name_to_id_cache = {}
+        try:
+            with open(APP_LIST_PATH, 'r', encoding='utf-8') as f:
+                reader = csv.reader(f)
+                next(reader, None)
+                for row in reader:
+                    if len(row) >= 2:
+                        appid, game_name = row[0], row[1]
+                        app_name_to_id_cache[game_name.strip().lower()] = appid
+        except Exception as e:
+            print(f"Error loading app_list.csv: {e}")
+    
+    return app_name_to_id_cache.get(name.strip().lower())
 
 @app.route('/')
 @app.route('/index.html')
@@ -29,6 +49,11 @@ def index():
 @app.route('/opcion1.html')
 def opcion1():
     return render_template('opcion1.html')
+
+@app.route('/opcion2')
+@app.route('/opcion2.html')
+def opcion2():
+    return render_template('opcion2.html')
 
 @app.route('/api/recommend')
 def api_recommend():
@@ -69,6 +94,43 @@ def api_recommend():
         return jsonify({'error': f'Error de red: {e}'}), 500
     except Exception as e:
         print(f"Error en /api/recommend: {e}")
+        return jsonify({'error': 'Ha ocurrido un error interno al generar las recomendaciones.'}), 500
+
+@app.route('/api/recommend_by_game')
+def api_recommend_by_game():
+    app_id_or_name = request.args.get('appId', '').strip()
+    if not app_id_or_name:
+        return jsonify({'error': 'El App ID o Nombre no puede estar vacío.'}), 400
+    
+    app_id = app_id_or_name
+    if not app_id.isdigit():
+        resolved_id = get_appid_by_name(app_id_or_name)
+        if not resolved_id:
+            return jsonify({'error': f'No se encontró ningún juego con el nombre "{app_id_or_name}". Asegúrate de escribirlo exactamente o usa el App ID numérico.'}), 404
+        app_id = resolved_id
+    
+    try:
+        tags = get_steamspy_tags(app_id, 5)
+        
+        if not tags:
+            return jsonify({'error': 'No se pudieron obtener tags suficientes desde SteamSpy para generar recomendaciones.'}), 404
+        
+        # Pass the input game as "owned" so it doesn't recommend the exact same game it was queried for
+        owned_games = [{'appid': app_id}]
+        recommendations, missing_tag_files = recommend_games_from_local_tags(owned_games, top_tags=tags, tags_dir=TAGS_DIR, limit=5)
+        
+        return jsonify({
+            'appId': app_id,
+            'topTags': tags,
+            'missingTagFiles': missing_tag_files,
+            'recommendations': recommendations
+        })
+
+    except requests.RequestException as e:
+        print(f"Error en /api/recommend_by_game (API request): {e}")
+        return jsonify({'error': f'Error de red: {e}'}), 500
+    except Exception as e:
+        print(f"Error en /api/recommend_by_game: {e}")
         return jsonify({'error': 'Ha ocurrido un error interno al generar las recomendaciones.'}), 500
 
 def get_owned_games(steam_id, api_key):

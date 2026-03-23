@@ -298,11 +298,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   option1.addEventListener("click", (event) => {
     event.preventDefault();
-    animateBubblesExitAndGoTo("opcion1.html");
+    animateBubblesExitAndGoTo(option1.getAttribute("href") || "opcion1.html");
   });
 
   option2.addEventListener("click", (event) => {
-    handleOptionClick(event, "Opción 2");
+    event.preventDefault();
+    animateBubblesExitAndGoTo(option2.getAttribute("href") || "opcion2.html");
   });
 
   option3.addEventListener("click", (event) => {
