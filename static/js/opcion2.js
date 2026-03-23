@@ -10,6 +10,8 @@
   const resultsGrid = document.getElementById('resultsGrid');
   const submitBtn = document.getElementById('submitBtn');
   const demoBtn = document.getElementById('demoBtn');
+  const datalist = document.getElementById('gameSuggestions');
+  let searchTimeout;
 
   function setState({ loading = false, error = '', payload = null }) {
     loadingState.classList.toggle('d-none', !loading);
@@ -106,6 +108,26 @@
 
     return data;
   }
+
+  appIdInput.addEventListener('input', (e) => {
+    const q = e.target.value.trim();
+    if (q.length < 2) {
+      datalist.innerHTML = '';
+      return;
+    }
+    
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(async () => {
+      try {
+        const response = await fetch(`/api/search_games?q=${encodeURIComponent(q)}`);
+        if (!response.ok) return;
+        const games = await response.json();
+        datalist.innerHTML = games.map(g => `<option value="${escapeAttribute(g.name)}"></option>`).join('');
+      } catch (err) {
+        console.error("Autocomplete error:", err);
+      }
+    }, 300);
+  });
 
   demoBtn.addEventListener('click', () => {
     appIdInput.value = DEMO_APP_ID;

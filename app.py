@@ -21,12 +21,14 @@ STEAMSPY_URL = 'https://steamspy.com/api.php'
 
 steamSpyCache = {}
 tagFileCache = {}
-app_name_to_id_cache = None
+app_name_to_id_cache = {}
+app_list_cache = []
+app_list_loaded = False
 
-def get_appid_by_name(name):
-    global app_name_to_id_cache
-    if app_name_to_id_cache is None:
-        app_name_to_id_cache = {}
+def load_app_list():
+    global app_list_loaded
+    if not app_list_loaded:
+        app_list_loaded = True
         try:
             with open(APP_LIST_PATH, 'r', encoding='utf-8') as f:
                 reader = csv.reader(f)
@@ -35,10 +37,28 @@ def get_appid_by_name(name):
                     if len(row) >= 2:
                         appid, game_name = row[0], row[1]
                         app_name_to_id_cache[game_name.strip().lower()] = appid
+                        app_list_cache.append({'id': appid, 'name': game_name.strip()})
         except Exception as e:
             print(f"Error loading app_list.csv: {e}")
-    
+
+def get_appid_by_name(name):
+    load_app_list()
     return app_name_to_id_cache.get(name.strip().lower())
+
+@app.route('/api/search_games')
+def api_search_games():
+    q = request.args.get('q', '').strip().lower()
+    if len(q) < 2:
+        return jsonify([])
+    
+    load_app_list()
+    results = []
+    for game in app_list_cache:
+        if q in game['name'].lower():
+            results.append(game)
+            if len(results) >= 15:
+                break
+    return jsonify(results)
 
 @app.route('/')
 @app.route('/index.html')
