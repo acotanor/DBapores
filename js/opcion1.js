@@ -62,14 +62,21 @@
         ? `Porque encaja con tus gustos en: ${escapeHtml(matchingTags.join(', '))}.`
         : 'Porque encaja con los gustos detectados en tu biblioteca.';
 
+      const headerImage = `https://cdn.akamai.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
+
       return `
-        <article class="result-card">
-          <div class="result-rank">${index + 1}</div>
-          <h3>${escapeHtml(game.name || 'Juego sin nombre')}</h3>
-          <p>${reason}</p>
-          <a class="result-link" href="${escapeAttribute(game.steamUrl || '#')}" target="_blank" rel="noopener noreferrer">
-            Ver en Steam
-          </a>
+        <article class="card h-100 game-card">
+          <div class="card-header-badge">${index + 1}</div>
+          <img src="${headerImage}" class="card-img-top" alt="${escapeAttribute(game.name)}" onerror="this.src='https://via.placeholder.com/460x215?text=Imagen+no+disponible'">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title text-white mb-2">${escapeHtml(game.name || 'Juego sin nombre')}</h5>
+            <p class="card-text flex-grow-1">${reason}</p>
+            <div class="mt-3">
+              <a href="${escapeAttribute(game.steamUrl || '#')}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm w-100 custom-btn">
+                Ver en Steam
+              </a>
+            </div>
+          </div>
         </article>
       `;
     }).join('');
