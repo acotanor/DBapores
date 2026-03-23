@@ -1,21 +1,27 @@
-.option1-page {
-  overflow-x: hidden;
-  overflow-y: auto;
+html,
+body.option1-page {
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
 }
 
 .option1-stage {
   position: relative;
   z-index: 2;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .form-orb-panel {
   position: relative;
   width: min(980px, 94vw);
-  min-height: 420px;
+  max-height: 90vh;
   opacity: 0;
   transform: translateY(120vh) scale(0.96);
   border-radius: 30px;
   isolation: isolate;
+  display: flex;
+  flex-direction: column;
   animation:
     panelRise 1.15s cubic-bezier(.22, .72, .2, 1) forwards,
     panelFloat 5.2s ease-in-out 1.15s infinite;
@@ -29,23 +35,22 @@
   border-radius: 34px;
   filter: blur(6px);
   animation: spinRing 14s linear infinite;
-  background: conic-gradient(
-    from 0deg,
-    rgba(255, 255, 255, 0.08),
-    rgba(80, 150, 255, 0.18),
-    rgba(255, 255, 255, 0.05),
-    rgba(0, 0, 0, 0),
-    rgba(80, 150, 255, 0.14)
-  );
+  background: conic-gradient(from 0deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(80, 150, 255, 0.18),
+      rgba(255, 255, 255, 0.05),
+      rgba(0, 0, 0, 0),
+      rgba(80, 150, 255, 0.14));
 }
 
 .form-orb-inner {
   position: relative;
-  min-height: 420px;
+  flex: 1;
   padding: 30px 30px 26px;
   border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: 28px;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background:
     radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.03) 16%, transparent 32%),
     radial-gradient(circle at 82% 80%, rgba(0, 0, 0, 0.52) 12%, rgba(0, 0, 0, 0.14) 44%, transparent 72%),
@@ -57,6 +62,28 @@
     0 0 38px rgba(20, 90, 255, 0.15);
   animation: morphPanel 7.2s ease-in-out infinite;
   backdrop-filter: blur(6px);
+}
+
+/* Custom Scrollbar */
+.form-orb-inner::-webkit-scrollbar {
+  width: 8px;
+}
+
+.form-orb-inner::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.form-orb-inner::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.form-orb-inner::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+  background-clip: content-box;
 }
 
 .form-orb-inner::after {
@@ -260,67 +287,72 @@
 .results-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: 20px;
 }
 
-.result-card {
-  padding: 18px;
+.game-card {
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.10);
   background:
-    radial-gradient(circle at 24% 20%, rgba(255, 255, 255, 0.10), transparent 34%),
-    rgba(0, 0, 0, 0.18);
+    radial-gradient(circle at 24% 20%, rgba(255, 255, 255, 0.08), transparent 40%),
+    rgba(6, 20, 43, 0.45);
   box-shadow:
-    inset -8px -8px 14px rgba(0, 0, 0, 0.16),
-    inset 6px 6px 10px rgba(255, 255, 255, 0.02);
+    inset -8px -8px 14px rgba(0, 0, 0, 0.20),
+    inset 6px 6px 10px rgba(255, 255, 255, 0.02),
+    0 10px 25px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(4px);
 }
 
-.result-rank {
-  display: inline-flex;
+.game-card:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    inset -8px -8px 14px rgba(0, 0, 0, 0.20),
+    0 15px 35px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(43, 121, 255, 0.15);
+  border-color: rgba(43, 121, 255, 0.3);
+}
+
+.card-img-top {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  aspect-ratio: 460 / 215;
+  object-fit: cover;
+}
+
+.card-header-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
-  margin-bottom: 10px;
+  background: rgba(43, 121, 255, 0.85);
+  color: white;
   border-radius: 50%;
-  background: rgba(43, 121, 255, 0.22);
-  color: #ffffff;
   font-weight: 700;
+  font-size: 0.85rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
-.result-card h3 {
-  margin: 0 0 8px;
-  color: #ffffff;
-  font-size: 1.05rem;
+.game-card .card-title {
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
 }
 
-.result-card p,
-.summary-card p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.75);
-  line-height: 1.45;
+.game-card .card-text {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
-.result-stats {
-  display: grid;
-  gap: 8px;
-  margin-top: 14px;
-}
-
-.result-stat {
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 0.94rem;
-}
-
-.result-link {
-  display: inline-block;
-  margin-top: 14px;
-  color: #b9d4ff;
-  text-decoration: none;
-}
-
-.result-link:hover {
-  color: #ffffff;
+.game-card .custom-btn {
+  height: 40px;
+  min-width: unset;
 }
 
 .muted-note {
@@ -342,10 +374,12 @@
     opacity: 0;
     transform: translateY(120vh) scale(0.96);
   }
+
   68% {
     opacity: 1;
     transform: translateY(-10px) scale(1.01);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -353,24 +387,32 @@
 }
 
 @keyframes panelFloat {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-8px);
   }
 }
 
 @keyframes morphPanel {
-  0%, 100% {
+
+  0%,
+  100% {
     border-radius: 28px 32px 30px 34px / 30px 28px 34px 30px;
   }
+
   25% {
     border-radius: 34px 28px 32px 26px / 26px 34px 28px 32px;
   }
+
   50% {
     border-radius: 30px 36px 26px 32px / 34px 28px 32px 26px;
   }
+
   75% {
     border-radius: 26px 30px 36px 28px / 28px 34px 26px 32px;
   }
