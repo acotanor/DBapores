@@ -12,15 +12,27 @@ import requests
 import os
 import unicodedata
 import re
+import json
+import csv
 
 api_bp = Blueprint("api", __name__)
+
+# --- Configuration and Caches ---
 steamSpyCache = {}
 STEAMSPY_URL = 'https://steamspy.com/api.php'
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-TAGS_DIR = os.path.join(BASE_DIR, 'data/tags')
+# __file__ is repo/app/controllers/api_controller.py. 
+# Go up 3 levels to reach the root directory.
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+TAGS_DIR = os.path.join(BASE_DIR, 'data', 'tags')
+APP_LIST_PATH = os.path.join(BASE_DIR, 'data', 'app_list.csv')
+
 tagFileCache = {}
+app_list_cache = []
+app_name_to_id_cache = {}
+app_list_loaded = False
 
 def build_facade() -> RecommendationFacade:
+    """Configures the recommendation engine using dependency injection."""
     config = current_app.config
 
     steam_client = SteamApiClient(
@@ -28,12 +40,10 @@ def build_facade() -> RecommendationFacade:
         base_url=config["STEAM_API_BASE_URL"],
         timeout=config["REQUEST_TIMEOUT"],
     )
-
     steamspy_client = SteamSpyClient(
         base_url=config["STEAMSPY_URL"],
         timeout=config["REQUEST_TIMEOUT"],
     )
-
     tag_repository = TagRepository(tags_dir=config["TAGS_DIR"])
 
     relevant_games_strategy = TopPlaytimeRelevantGamesStrategy()
@@ -49,31 +59,71 @@ def build_facade() -> RecommendationFacade:
         recommendation_service=recommendation_service,
     )
 
+# --- Helper Functions ---
+
+def normalize_search_name(name):
+    """
+    Strips symbols like ® and ™ to ensure robust matches.
+    """
+    if not name:
+        return ""
+    # NFKD normalization separates base characters from their marks.
+    name = unicodedata.normalize('NFKD', name.strip().lower())
+    # Remove registered trademark, trademark, and copyright symbols.
+    name = re.sub(r'[®™©]', '', name)
+    # Remove extra whitespace.
+    return re.sub(r'\s+', ' ', name).strip()
+
+def load_app_list():
+    """Loads the CSV into memory caches for searching and name resolution."""
+    global app_list_loaded
+    if not app_list_loaded:
+        app_list_loaded = True
+        try:
+            with open(APP_LIST_PATH, 'r', encoding='utf-8') as f:
+                reader = csv.reader(f)
+                next(reader, None)  # Skip CSV header
+                for row in reader:
+                    if len(row) >= 2:
+                        appid, game_name = row[0], row[1]
+                        # Store using the clean version for the dictionary key.
+                        clean_name = normalize_search_name(game_name)
+                        app_name_to_id_cache[clean_name] = appid
+                        # Keep original name for display purposes in the UI.
+                        app_list_cache.append({'id': appid, 'name': game_name.strip()})
+        except Exception as e:
+            print(f"Error loading app_list.csv: {e}")
+
+def get_appid_by_name(name):
+    """Resolves a game name to its App ID using normalized matching."""
+    load_app_list()
+    return app_name_to_id_cache.get(normalize_search_name(name))
+
+# --- API Routes ---
 
 @api_bp.get("/recommend")
 def recommend():
+    """Generates recommendations based on a user's Steam ID."""
     steam_id = str(request.args.get("steamId", "")).strip()
 
     if not steam_id.isdigit() or len(steam_id) != 17:
         return jsonify({"error": "El Steam ID debe ser un SteamID64 de 17 dígitos."}), 400
 
     if current_app.config["STEAM_API_KEY"] == "TU_API_KEY_AQUI":
-        return jsonify({
-            "error": "Falta configurar la Steam API Key en la variable de entorno STEAM_API_KEY."
-        }), 500
+        return jsonify({"error": "Falta configurar la Steam API Key."}), 500
 
     facade = build_facade()
-
     try:
         payload = facade.generate_recommendations(steam_id=steam_id, limit=5, top_tags_count=5)
         return jsonify(payload), 200
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 404
     except Exception:
-        return jsonify({"error": "Ha ocurrido un error interno al generar las recomendaciones."}), 500
+        return jsonify({"error": "Error interno al generar las recomendaciones."}), 500
 
 @api_bp.get('/recommend_by_game')
 def api_recommend_by_game():
+    """Generates recommendations based on a single game ID or name."""
     app_id_or_name = request.args.get('appId', '').strip()
     if not app_id_or_name:
         return jsonify({'error': 'El App ID o Nombre no puede estar vacío.'}), 400
@@ -82,18 +132,22 @@ def api_recommend_by_game():
     if not app_id.isdigit():
         resolved_id = get_appid_by_name(app_id_or_name)
         if not resolved_id:
-            return jsonify({'error': f'No se encontró ningún juego con el nombre "{app_id_or_name}". Asegúrate de escribirlo exactamente o usa el App ID numérico.'}), 404
+            return jsonify({'error': f'No se encontró ningún juego con el nombre "{app_id_or_name}".'}), 404
         app_id = resolved_id
     
     try:
         tags = get_steamspy_tags(app_id, 5)
-        
         if not tags:
-            return jsonify({'error': 'No se pudieron obtener tags suficientes desde SteamSpy para generar recomendaciones.'}), 404
+            # Check if it was a specifically caught error or just empty
+            return jsonify({
+                'error': f'No se pudieron obtener tags para el juego (AppID: {app_id}). '
+                         'Verifica la conexión con SteamSpy o si el ID es correcto.'
+            }), 502
         
-        # Pass the input game as "owned" so it doesn't recommend the exact same game it was queried for
         owned_games = [{'appid': app_id}]
-        recommendations, missing_tag_files = recommend_games_from_local_tags(owned_games, top_tags=tags, tags_dir=TAGS_DIR, limit=5)
+        recommendations, missing_tag_files = recommend_games_from_local_tags(
+            owned_games, top_tags=tags, tags_dir=TAGS_DIR, limit=5
+        )
         
         return jsonify({
             'appId': app_id,
@@ -101,32 +155,33 @@ def api_recommend_by_game():
             'missingTagFiles': missing_tag_files,
             'recommendations': recommendations
         })
-
-    except requests.RequestException as e:
-        print(f"Error en /api/recommend_by_game (API request): {e}")
-        return jsonify({'error': f'Error de red: {e}'}), 500
     except Exception as e:
         print(f"Error en /api/recommend_by_game: {e}")
-        return jsonify({'error': 'Ha ocurrido un error interno al generar las recomendaciones.'}), 500
-
+        return jsonify({'error': 'Error interno al generar las recomendaciones.'}), 500
 
 @api_bp.get('/search_games')
 def api_search_games():
-    q = request.args.get('q', '').strip().lower()
+    """Filters the app list for search suggestions."""
+    q = request.args.get('q', '').strip()
     if len(q) < 2:
         return jsonify([])
     
     load_app_list()
+    clean_q = normalize_search_name(q)
     results = []
+    
     for game in app_list_cache:
-        if q in game['name'].lower():
+        # Check against the normalized version so symbols don't prevent matches.
+        if clean_q in normalize_search_name(game['name']):
             results.append(game)
             if len(results) >= 15:
                 break
     return jsonify(results)
 
+# --- SteamSpy & Tag Processing ---
 
 def get_steamspy_tags(appid, num_tags=5):
+    """Fetches top tags for an AppID from SteamSpy."""
     cache_key = f"{appid}:{num_tags}"
     if cache_key in steamSpyCache:
         return steamSpyCache[cache_key]
@@ -134,27 +189,51 @@ def get_steamspy_tags(appid, num_tags=5):
     try:
         resp = requests.get(STEAMSPY_URL, params={'request': 'appdetails', 'appid': appid}, timeout=15)
         if not resp.ok:
-            steamSpyCache[cache_key] = []
+            print(f"DEBUG: SteamSpy API error for {appid}: HTTP {resp.status_code}")
             return []
         
         data = resp.json()
+        if not data or not isinstance(data, dict):
+            print(f"DEBUG: SteamSpy returned invalid JSON for {appid}")
+            return []
+            
         tags_object = data.get('tags')
         
         if not tags_object or not isinstance(tags_object, dict):
-            steamSpyCache[cache_key] = []
+            print(f"DEBUG: No tags found in SteamSpy response for {appid}. Checking genre.")
+            genre_str = data.get('genre', '')
+            if genre_str and isinstance(genre_str, str):
+                genres = [g.strip().lower() for g in genre_str.split(',') if g.strip()]
+                print(f"DEBUG: Using genre fallback for {appid}: {genres}")
+                tags = genres[:num_tags]
+                steamSpyCache[cache_key] = tags
+                return tags
+                
+            if 'name' in data:
+                print(f"DEBUG: Game found: {data['name']}, but no tags or genre.")
             return []
         
-        tags_sorted = sorted(tags_object.items(), key=lambda x: int(x[1]), reverse=True)
+        # Sort tags by frequency, handling potential non-integer values safely
+        try:
+            tags_sorted = sorted(
+                tags_object.items(), 
+                key=lambda x: int(str(x[1]).replace(',', '') if x[1] else 0), 
+                reverse=True
+            )
+        except (ValueError, TypeError) as e:
+            print(f"DEBUG: Error sorting tags for {appid}: {e}")
+            tags_sorted = list(tags_object.items())
+
         tags = [str(k).lower() for k, v in tags_sorted[:num_tags]]
         
         steamSpyCache[cache_key] = tags
         return tags
-    except Exception:
-        steamSpyCache[cache_key] = []
+    except Exception as e:
+        print(f"DEBUG: Exception in get_steamspy_tags for {appid}: {e}")
         return []
 
-
 def recommend_games_from_local_tags(owned_games, top_tags, tags_dir, limit=5):
+    """Calculates game scores based on overlapping local tag JSON files."""
     owned_ids = {str(g['appid']) for g in owned_games}
     candidates = {}
     missing_tag_files = []
@@ -170,38 +249,33 @@ def recommend_games_from_local_tags(owned_games, top_tags, tags_dir, limit=5):
             if not appid or appid in owned_ids:
                 continue
             
-            name = game.get('name', 'Sin nombre')
-            positive = int(game.get('positive', 0))
-            relevancia = float(game.get('relevancia', 0))
-            
             if appid not in candidates:
                 candidates[appid] = {
                     'appid': appid,
-                    'name': name,
-                    'positive': positive,
-                    'coincidencias': 0,
+                    'name': game.get('name', 'Sin nombre'),
+                    'positive': int(game.get('positive', 0)),
                     'tagsCoincidentes': set(),
                     'relevancia_total': 0,
                     'relevancia_max': 0
                 }
             
             c = candidates[appid]
+            relevancia = float(game.get('relevancia', 0))
             c['tagsCoincidentes'].add(tag)
             c['relevancia_total'] += relevancia
             c['relevancia_max'] = max(c['relevancia_max'], relevancia)
-            c['positive'] = max(c['positive'], positive)
 
     recommendations_list = []
     for c in candidates.values():
         tags_coincidentes = sorted(list(c['tagsCoincidentes']))
-        rec = {
+        recommendations_list.append({
             **c,
             'coincidencias': len(tags_coincidentes),
             'tagsCoincidentes': tags_coincidentes,
             'steamUrl': f"https://store.steampowered.com/app/{c['appid']}/"
-        }
-        recommendations_list.append(rec)
+        })
     
+    # Sort by matches first, then relevance.
     recommendations_list.sort(key=lambda x: (
         -x['coincidencias'],
         -x['relevancia_total'],
@@ -213,6 +287,7 @@ def recommend_games_from_local_tags(owned_games, top_tags, tags_dir, limit=5):
     return recommendations_list[:limit], missing_tag_files
 
 def load_tag_games(tag, tags_dir):
+    """Loads a specific tag's JSON file and caches the content."""
     file_name = f"{normalize_tag_to_file_name(tag)}.json"
     file_path = os.path.join(tags_dir, file_name)
     
@@ -226,10 +301,10 @@ def load_tag_games(tag, tags_dir):
             tagFileCache[file_path] = games
             return games
     except Exception:
-        tagFileCache[file_path] = []
         return []
 
 def normalize_tag_to_file_name(tag):
+    """Converts a tag name into a valid filesystem filename."""
     tag = unicodedata.normalize('NFD', tag.strip().lower())
     tag = ''.join(c for c in tag if unicodedata.category(c) != 'Mn')
     tag = tag.replace('&', 'and')

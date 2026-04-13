@@ -18,25 +18,47 @@ class SteamSpyClient:
                 params={"request": "appdetails", "appid": str(appid)},
                 timeout=self.timeout
             )
-            response.raise_for_status()
-
-            data = response.json()
-            tags_obj = data.get("tags", {})
-
-            if not isinstance(tags_obj, dict):
+            if not response.ok:
+                print(f"DEBUG Client: SteamSpy API error for {appid}: HTTP {response.status_code}")
                 self._cache[cache_key] = []
                 return []
 
-            tags = [
-                str(tag_name).lower()
-                for tag_name, _value in sorted(
-                    tags_obj.items(),
-                    key=lambda item: -int(item[1])
-                )[:num_tags]
-            ]
+            data = response.json()
+            if not data or not isinstance(data, dict):
+                print(f"DEBUG Client: SteamSpy invalid JSON for {appid}")
+                self._cache[cache_key] = []
+                return []
+
+            tags_obj = data.get("tags", {})
+            if not isinstance(tags_obj, dict) or not tags_obj:
+                print(f"DEBUG Client: No tags for {appid}. Checking genre.")
+                genre_str = data.get('genre', '')
+                if genre_str and isinstance(genre_str, str):
+                    genres = [g.strip().lower() for g in genre_str.split(',') if g.strip()]
+                    print(f"DEBUG Client: Using genre fallback for {appid}: {genres}")
+                    tags = genres[:num_tags]
+                    self._cache[cache_key] = tags
+                    return tags
+                
+                self._cache[cache_key] = []
+                return []
+
+            # Robust sorting handling potential non-integer values
+            try:
+                tags = [
+                    str(tag_name).lower()
+                    for tag_name, _value in sorted(
+                        tags_obj.items(),
+                        key=lambda item: -int(str(item[1]).replace(',', '') if item[1] else 0)
+                    )[:num_tags]
+                ]
+            except (ValueError, TypeError, KeyError) as e:
+                print(f"DEBUG Client: Sorting error for {appid}: {e}")
+                tags = [str(k).lower() for k in list(tags_obj.keys())[:num_tags]]
 
             self._cache[cache_key] = tags
             return tags
-        except Exception:
+        except Exception as e:
+            print(f"DEBUG Client: Exception for {appid}: {e}")
             self._cache[cache_key] = []
             return []
