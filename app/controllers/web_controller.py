@@ -11,3 +11,7 @@ def home():
 @web_bp.get("/opcion1")
 def opcion1():
     return render_template("opcion1.html")
+
+@web_bp.get("/opcion2")
+def opcion2():
+    return render_template("opcion2.html")
