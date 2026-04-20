@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       animation.finished
-        .catch(() => {})
+        .catch(() => { })
         .finally(() => {
           particle.remove();
         });
@@ -302,7 +302,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   option2.addEventListener("click", (event) => {
-    handleOptionClick(event, "Opción 2");
+    event.preventDefault();
+    animateBubblesExitAndGoTo(window.APP_ROUTES.opcion2);
   });
 
   option3.addEventListener("click", (event) => {
