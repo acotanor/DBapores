@@ -12,6 +12,7 @@
   const demoBtn = document.getElementById('demoBtn');
   const datalist = document.getElementById('gameSuggestions');
   let searchTimeout;
+  let searchAbortController = null;
   let lastSearchResults = []; // To store the latest search results for ID mapping
 
   function setState({ loading = false, error = '', payload = null }) {
@@ -119,14 +120,23 @@
     
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(async () => {
+      if (searchAbortController) {
+        searchAbortController.abort();
+      }
+      searchAbortController = new AbortController();
+
       try {
-        const response = await fetch(`/api/search_games?q=${encodeURIComponent(q)}`);
+        const response = await fetch(`/api/search_games?q=${encodeURIComponent(q)}`, {
+          signal: searchAbortController.signal
+        });
         if (!response.ok) return;
         const games = await response.json();
         lastSearchResults = games; // Map names to IDs
         datalist.innerHTML = games.map(g => `<option value="${escapeAttribute(g.name)}"></option>`).join('');
       } catch (err) {
-        console.error("Autocomplete error:", err);
+        if (err.name !== 'AbortError') {
+          console.error("Autocomplete error:", err);
+        }
       }
     }, 300);
   });

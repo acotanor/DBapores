@@ -32,6 +32,7 @@ body {
   background: radial-gradient(circle at 50% 50%, rgba(0, 102, 255, 0.10), transparent 60%);
   filter: blur(20px);
   animation: pulseGlow 5s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 .logo-wrap {
@@ -93,6 +94,7 @@ body {
   transform-style: preserve-3d;
   transition: box-shadow 0.25s ease, transform 0.2s ease;
   animation: floatOrb 3.6s ease-in-out infinite;
+  will-change: transform;
   background:
     radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.03) 18%, transparent 35%),
     radial-gradient(circle at 70% 75%, rgba(0, 0, 0, 0.55) 10%, rgba(0, 0, 0, 0.15) 45%, transparent 70%),
@@ -112,6 +114,7 @@ body {
   border-radius: 50%;
   filter: blur(5px);
   animation: spinRing 10s linear infinite;
+  will-change: transform;
   background: conic-gradient(
     from 0deg,
     rgba(255, 255, 255, 0.08),

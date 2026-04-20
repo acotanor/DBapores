@@ -4,22 +4,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const option1 = document.getElementById("opt1");
   const option2 = document.getElementById("opt2");
   const option3 = document.getElementById("opt3");
-  const bubbleParticles = document.getElementById("bubbleParticles");
 
   const magnetShells = Array.from(document.querySelectorAll(".mini-orb-shell"));
 
   const MAGNET_RANGE = 190;
   const MAGNET_STRENGTH = 12;
-
-  const PARTICLE_COUNT = 18;
-  const PARTICLE_MIN_SIZE = 10;
-  const PARTICLE_MAX_SIZE = 26;
-  const PARTICLE_BURST_MIN = 28;
-  const PARTICLE_BURST_MAX = 82;
-  const PARTICLE_SIDE_DRIFT = 60;
-  const PARTICLE_DURATION_MIN = 3600;
-  const PARTICLE_DURATION_MAX = 5600;
-  const PARTICLE_STAGGER_MAX = 180;
 
   let isNavigating = false;
 
@@ -173,9 +162,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    magnetShells.forEach((shell) => {
+    // Phase 1: Read all positions
+    const renderData = magnetShells.map((shell) => {
       const orb = shell.querySelector(".mini-orb");
-      if (!orb) return;
+      if (!orb) return null;
 
       const rect = shell.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
@@ -184,6 +174,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const deltaX = cursorX - centerX;
       const deltaY = cursorY - centerY;
       const distance = Math.hypot(deltaX, deltaY);
+
+      return { orb, distance, deltaX, deltaY };
+    });
+
+    // Phase 2: Write all styles
+    renderData.forEach((data) => {
+      if (!data) return;
+      const { orb, distance, deltaX, deltaY } = data;
 
       if (distance >= MAGNET_RANGE) {
         orb.style.setProperty("--magnet-x", "0px");
@@ -221,8 +219,20 @@ document.addEventListener("DOMContentLoaded", () => {
     animateBubblesExitAndGoTo(window.APP_ROUTES.opcion3);
   });
 
+  let rafPending = false;
+  let mouseX = 0;
+  let mouseY = 0;
+
   document.addEventListener("mousemove", (event) => {
-    updateMagnetEffect(event.clientX, event.clientY);
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+    if (!rafPending) {
+      rafPending = true;
+      requestAnimationFrame(() => {
+        updateMagnetEffect(mouseX, mouseY);
+        rafPending = false;
+      });
+    }
   });
 
   document.addEventListener("mouseleave", () => {
