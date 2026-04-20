@@ -1,6 +1,6 @@
 .option1-page {
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .option1-stage {
@@ -42,10 +42,12 @@
 .form-orb-inner {
   position: relative;
   min-height: 420px;
+  max-height: 85vh;
   padding: 30px 30px 26px;
   border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: 28px;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background:
     radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.03) 16%, transparent 32%),
     radial-gradient(circle at 82% 80%, rgba(0, 0, 0, 0.52) 12%, rgba(0, 0, 0, 0.14) 44%, transparent 72%),
@@ -57,6 +59,22 @@
     0 0 38px rgba(20, 90, 255, 0.15);
   animation: morphPanel 7.2s ease-in-out infinite;
   backdrop-filter: blur(6px);
+}
+
+.form-orb-inner::-webkit-scrollbar {
+  width: 8px;
+}
+.form-orb-inner::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  margin: 20px 0;
+}
+.form-orb-inner::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+}
+.form-orb-inner::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .form-orb-inner::after {
