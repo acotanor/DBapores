@@ -15,3 +15,9 @@ def opcion1():
 @web_bp.get("/opcion2")
 def opcion2():
     return render_template("opcion2.html")
+
+
+@web_bp.get("/wrapped")
+def wrapped_input():
+    """Intermediate page to enter SteamID for the Wrapped report (same UX as opcion1)."""
+    return render_template("wrapped_input.html")
