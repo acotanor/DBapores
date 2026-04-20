@@ -51,95 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return Math.random() * (max - min) + min;
   }
 
-  function emitBubbleParticles(count = PARTICLE_COUNT) {
-    if (!bubbleParticles || !logoOrb) return;
 
-    const logoRect = logoOrb.getBoundingClientRect();
-    const centerX = logoRect.left + logoRect.width / 2;
-    const centerY = logoRect.top + logoRect.height / 2;
-
-    for (let i = 0; i < count; i += 1) {
-      const particle = document.createElement("span");
-      particle.className = "bubble-particle";
-
-      const size = randomBetween(PARTICLE_MIN_SIZE, PARTICLE_MAX_SIZE);
-
-      const spawnAngle = randomBetween(-Math.PI * 0.95, -Math.PI * 0.05);
-      const spawnRadius = randomBetween(8, logoRect.width * 0.22);
-
-      const startOffsetX = Math.cos(spawnAngle) * spawnRadius;
-      const startOffsetY = Math.sin(spawnAngle) * spawnRadius;
-
-      const burstAngle = randomBetween(0, Math.PI * 2);
-      const burstDistance = randomBetween(PARTICLE_BURST_MIN, PARTICLE_BURST_MAX);
-      const burstX = startOffsetX + Math.cos(burstAngle) * burstDistance;
-      const burstY = startOffsetY + Math.sin(burstAngle) * burstDistance;
-
-      const topExitY = -(centerY + size + randomBetween(30, 100));
-      const finalX = burstX + randomBetween(-PARTICLE_SIDE_DRIFT, PARTICLE_SIDE_DRIFT);
-
-      const midX = burstX + randomBetween(-14, 14);
-      const midY = burstY + randomBetween(-8, 12);
-
-      const duration = randomBetween(PARTICLE_DURATION_MIN, PARTICLE_DURATION_MAX);
-      const delay = randomBetween(0, PARTICLE_STAGGER_MAX);
-      const rotation = randomBetween(-18, 18);
-
-      particle.style.width = `${size.toFixed(2)}px`;
-      particle.style.height = `${size.toFixed(2)}px`;
-      particle.style.left = `${centerX.toFixed(2)}px`;
-      particle.style.top = `${centerY.toFixed(2)}px`;
-
-      bubbleParticles.appendChild(particle);
-
-      const animation = particle.animate(
-        [
-          {
-            transform: `translate(-50%, -50%) translate(${startOffsetX.toFixed(2)}px, ${startOffsetY.toFixed(2)}px) scale(0.2) rotate(0deg)`,
-            opacity: 0,
-            offset: 0
-          },
-          {
-            transform: `translate(-50%, -50%) translate(${(burstX * 0.55).toFixed(2)}px, ${(burstY * 0.55).toFixed(2)}px) scale(0.85) rotate(${(rotation * 0.25).toFixed(2)}deg)`,
-            opacity: 0.95,
-            offset: 0.12
-          },
-          {
-            transform: `translate(-50%, -50%) translate(${midX.toFixed(2)}px, ${midY.toFixed(2)}px) scale(1) rotate(${(rotation * 0.4).toFixed(2)}deg)`,
-            opacity: 0.98,
-            offset: 0.22
-          },
-          {
-            transform: `translate(-50%, -50%) translate(${(finalX * 0.45).toFixed(2)}px, ${(topExitY * 0.35).toFixed(2)}px) scale(1.04) rotate(${(rotation * 0.65).toFixed(2)}deg)`,
-            opacity: 0.96,
-            offset: 0.55
-          },
-          {
-            transform: `translate(-50%, -50%) translate(${(finalX * 0.82).toFixed(2)}px, ${(topExitY * 0.82).toFixed(2)}px) scale(1.08) rotate(${(rotation * 0.9).toFixed(2)}deg)`,
-            opacity: 0.93,
-            offset: 0.88
-          },
-          {
-            transform: `translate(-50%, -50%) translate(${finalX.toFixed(2)}px, ${topExitY.toFixed(2)}px) scale(1.1) rotate(${rotation.toFixed(2)}deg)`,
-            opacity: 0,
-            offset: 1
-          }
-        ],
-        {
-          duration,
-          delay,
-          easing: "cubic-bezier(.22, .72, .2, 1)",
-          fill: "forwards"
-        }
-      );
-
-      animation.finished
-        .catch(() => { })
-        .finally(() => {
-          particle.remove();
-        });
-    }
-  }
 
   function animateBubblesExitAndGoTo(url) {
     if (isNavigating) return;
@@ -149,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("is-transitioning");
 
     resetMagnetEffect();
-    emitBubbleParticles(26);
 
     const targets = [logoOrb, option1, option2, option3];
     let longestEnd = 0;
@@ -219,7 +130,6 @@ document.addEventListener("DOMContentLoaded", () => {
     event.stopPropagation();
 
     animateLogoBubble();
-    emitBubbleParticles();
 
     const isOpen = menuCluster.classList.contains("open");
     setMenuState(!isOpen);
