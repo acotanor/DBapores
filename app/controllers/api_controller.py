@@ -126,6 +126,95 @@ def recommend():
     except Exception:
         return jsonify({"error": "Error interno al generar las recomendaciones."}), 500
 
+
+@api_bp.get('/wrapped/<steam_id>')
+def wrapped(steam_id: str):
+    """Prototype 'Steam Wrapped' endpoint. Returns JSON and renders a simple HTML report if
+    the request accepts HTML.
+    """
+    steam_id = str(steam_id).strip()
+
+    if not steam_id.isdigit() or len(steam_id) != 17:
+        return jsonify({"error": "El Steam ID debe ser un SteamID64 de 17 dígitos."}), 400
+
+    facade = build_facade()
+    try:
+        # Generate recommendations and top tags using existing facade
+        payload = facade.generate_recommendations(steam_id=steam_id, limit=10, top_tags_count=10)
+
+        # Derive top games and total playtime from owned games
+        owned_games = payload.get('stats', {}).get('relevantGamesAnalyzed')
+        # Note: `generate_recommendations` does not return owned games; fetch directly
+        steam_lib = facade.steam_library_service
+        owned = steam_lib.get_owned_games(steam_id)
+
+        # Compute top games by playtime (field names may vary; use 'playtime_forever' or 'playtime')
+        def playtime_of(g):
+            for k in ('playtime_forever', 'playtime', 'playtime_hours'):
+                if k in g and g[k] is not None:
+                    try:
+                        return float(g[k])
+                    except Exception:
+                        pass
+            return 0.0
+
+        top_games = sorted(owned, key=playtime_of, reverse=True)[:10]
+        total_playtime = sum(playtime_of(g) for g in owned)
+
+        # Convert playtime (likely minutes) to hours for display
+        def to_hours(minutes):
+            try:
+                return round(float(minutes) / 60.0, 1)
+            except Exception:
+                return 0.0
+
+        top_games_items = []
+        for g in top_games:
+            appid = str(g.get('appid', ''))
+            top_games_items.append({
+                'appid': appid,
+                'name': g.get('name', ''),
+                'playtime': playtime_of(g),
+                'playtime_hours': to_hours(playtime_of(g)),
+                'image': f"https://cdn.akamai.steamstatic.com/steam/apps/{appid}/header.jpg"
+            })
+
+        # Attach images for recommendations when possible
+        recs = payload.get('recommendations', [])
+        for r in recs:
+            try:
+                r_appid = r.get('appid') or r.get('id') or ''
+                r['image'] = f"https://cdn.akamai.steamstatic.com/steam/apps/{r_appid}/header.jpg"
+            except Exception:
+                r['image'] = None
+
+        report = {
+            'steamId': steam_id,
+            'topTags': payload.get('topTags', []),
+            'topGames': top_games_items,
+            'totalPlaytime': total_playtime,
+            'totalPlaytimeHours': to_hours(total_playtime),
+            'recommendations': payload.get('recommendations', []),
+            'missingTagFiles': payload.get('missingTagFiles', []),
+            'stats': payload.get('stats', {})
+        }
+
+        # If the client accepts HTML, render a simple template; otherwise return JSON
+        accept = request.headers.get('Accept', '')
+        if 'text/html' in accept:
+            try:
+                return current_app.jinja_env.get_or_select_template(['wrapped.html']).render(report=report), 200
+            except Exception:
+                # Fallback to JSON if template not found or render fails
+                return jsonify(report), 200
+
+        return jsonify(report), 200
+    except ValueError as exc:
+        return jsonify({"error": str(exc)}), 404
+    except Exception as e:
+        print(f"Error generating wrapped for {steam_id}: {e}")
+        return jsonify({"error": "Error interno al generar el Wrapped."}), 500
+
 @api_bp.get('/recommend_by_game')
 def api_recommend_by_game():
     """Generates recommendations based on a single game ID or name."""

@@ -1,0 +1,50 @@
+/* Wrapped report tweaks based on opcion1 styles */
+
+/* Make the summary-card headings slightly larger */
+.summary-card h3 {
+  margin-bottom: 8px;
+  color: #ffffff;
+  font-size: 1.05rem;
+}
+
+.games li {
+  color: rgba(255,255,255,0.95);
+}
+
+.tag-pill {
+  background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.92);
+  padding: 6px 10px;
+}
+
+.summary-pill {
+  display:inline-block;
+  padding:10px 14px;
+  font-weight:700;
+  border-radius:12px;
+  background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(0,0,0,0.12));
+  color: #fff;
+}
+
+/* Game card adjustments */
+.game-card { padding: 12px; }
+.card-title { margin-bottom:6px; }
+
+/* Responsive tweaks for wrapped report */
+@media (max-width: 768px) {
+  .summary-card { margin-bottom: 14px; }
+  .results-grid { grid-template-columns: 1fr !important; }
+}
+
+/* Thumbnails for wrapped page */
+.game-thumb {
+  width: 140px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.list-group-item { background: transparent; border: none; padding: 8px 0; }
+.list-group-item + .list-group-item { border-top: 1px solid rgba(255,255,255,0.03); }
