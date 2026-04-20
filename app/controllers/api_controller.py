@@ -30,6 +30,7 @@ tagFileCache = {}
 app_list_cache = []
 app_name_to_id_cache = {}
 app_list_loaded = False
+_shared_clients = {}
 
 def build_facade() -> RecommendationFacade:
     """Configures the recommendation engine using dependency injection."""
@@ -40,10 +41,14 @@ def build_facade() -> RecommendationFacade:
         base_url=config["STEAM_API_BASE_URL"],
         timeout=config["REQUEST_TIMEOUT"],
     )
-    steamspy_client = SteamSpyClient(
-        base_url=config["STEAMSPY_URL"],
-        timeout=config["REQUEST_TIMEOUT"],
-    )
+    # Reuse a shared SteamSpyClient across requests to keep its internal cache
+    # (avoids re-requesting the same app details on every request).
+    if 'steamspy' not in _shared_clients:
+        _shared_clients['steamspy'] = SteamSpyClient(
+            base_url=config["STEAMSPY_URL"],
+            timeout=config["REQUEST_TIMEOUT"],
+        )
+    steamspy_client = _shared_clients['steamspy']
     tag_repository = TagRepository(tags_dir=config["TAGS_DIR"])
 
     relevant_games_strategy = TopPlaytimeRelevantGamesStrategy()

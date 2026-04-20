@@ -1,4 +1,5 @@
 import requests
+import threading
 
 
 class SteamSpyClient:
@@ -6,11 +7,15 @@ class SteamSpyClient:
         self.base_url = base_url
         self.timeout = timeout
         self._cache = {}
+        # Lock to protect concurrent access to self._cache
+        self._lock = threading.RLock()
 
     def get_top_tags(self, appid: str, num_tags: int = 5) -> list[str]:
         cache_key = f"{appid}:{num_tags}"
-        if cache_key in self._cache:
-            return self._cache[cache_key]
+        # Fast path: check cache under lock
+        with self._lock:
+            if cache_key in self._cache:
+                return self._cache[cache_key]
 
         try:
             response = requests.get(
@@ -20,13 +25,15 @@ class SteamSpyClient:
             )
             if not response.ok:
                 print(f"DEBUG Client: SteamSpy API error for {appid}: HTTP {response.status_code}")
-                self._cache[cache_key] = []
+                with self._lock:
+                    self._cache[cache_key] = []
                 return []
 
             data = response.json()
             if not data or not isinstance(data, dict):
                 print(f"DEBUG Client: SteamSpy invalid JSON for {appid}")
-                self._cache[cache_key] = []
+                with self._lock:
+                    self._cache[cache_key] = []
                 return []
 
             tags_obj = data.get("tags", {})
@@ -37,10 +44,12 @@ class SteamSpyClient:
                     genres = [g.strip().lower() for g in genre_str.split(',') if g.strip()]
                     print(f"DEBUG Client: Using genre fallback for {appid}: {genres}")
                     tags = genres[:num_tags]
-                    self._cache[cache_key] = tags
+                    with self._lock:
+                        self._cache[cache_key] = tags
                     return tags
                 
-                self._cache[cache_key] = []
+                with self._lock:
+                    self._cache[cache_key] = []
                 return []
 
             # Robust sorting handling potential non-integer values
@@ -56,9 +65,11 @@ class SteamSpyClient:
                 print(f"DEBUG Client: Sorting error for {appid}: {e}")
                 tags = [str(k).lower() for k in list(tags_obj.keys())[:num_tags]]
 
-            self._cache[cache_key] = tags
+            with self._lock:
+                self._cache[cache_key] = tags
             return tags
         except Exception as e:
             print(f"DEBUG Client: Exception for {appid}: {e}")
-            self._cache[cache_key] = []
+            with self._lock:
+                self._cache[cache_key] = []
             return []

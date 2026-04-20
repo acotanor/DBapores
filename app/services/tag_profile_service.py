@@ -1,4 +1,5 @@
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
 class TagProfileService:
@@ -15,12 +16,22 @@ class TagProfileService:
         relevant_games = self.relevant_games_strategy.select_games(owned_games)
         tag_counter = Counter()
 
-        for game in relevant_games:
-            tags = self.steamspy_client.get_top_tags(
-                appid=game["appid"],
-                num_tags=steamspy_tags_per_game
-            )
-            tag_counter.update(tags)
+        # Parallelize SteamSpy requests to reduce wall-clock time when
+        # querying multiple games. The SteamSpy client keeps an internal
+        # cache so repeated calls are cheap.
+        if relevant_games:
+            max_workers = min(8, len(relevant_games))
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                futures = [
+                    executor.submit(self.steamspy_client.get_top_tags, game["appid"], steamspy_tags_per_game)
+                    for game in relevant_games
+                ]
+                for fut in as_completed(futures):
+                    try:
+                        tags = fut.result()
+                    except Exception:
+                        tags = []
+                    tag_counter.update(tags)
 
         top_tags = [
             tag for tag, _count in sorted(
