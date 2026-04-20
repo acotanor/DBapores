@@ -217,7 +217,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   option3.addEventListener("click", (event) => {
-    handleOptionClick(event, "Opción 3");
+    event.preventDefault();
+    animateBubblesExitAndGoTo(window.APP_ROUTES.opcion3);
   });
 
   document.addEventListener("mousemove", (event) => {
