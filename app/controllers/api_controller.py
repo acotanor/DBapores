@@ -119,7 +119,7 @@ def recommend():
 
     facade = build_facade()
     try:
-        payload = facade.generate_recommendations(steam_id=steam_id, limit=5, top_tags_count=5)
+        payload = facade.generate_recommendations(steam_id=steam_id, limit=8, top_tags_count=5)
         return jsonify(payload), 200
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 404

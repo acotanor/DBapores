@@ -8,6 +8,8 @@
   const resultState = document.getElementById("resultState");
   const resultsSummary = document.getElementById("resultsSummary");
   const resultsGrid = document.getElementById("resultsGrid");
+  const promotedSection = document.getElementById("promotedSection");
+  const promotedList = document.getElementById("promotedList");
   const submitBtn = document.getElementById("submitBtn");
   const demoBtn = document.getElementById("demoBtn");
 
@@ -29,6 +31,8 @@
     } else {
       resultsSummary.innerHTML = "";
       resultsGrid.innerHTML = "";
+      if (promotedList) promotedList.innerHTML = "";
+      if (promotedSection) promotedSection.classList.add("d-none");
     }
   }
 
@@ -57,7 +61,39 @@
       return;
     }
 
-    resultsGrid.innerHTML = recommendations.map((game, index) => {
+    const allRecommendations = Array.isArray(payload.recommendations) ? payload.recommendations : [];
+    const top5 = allRecommendations.slice(0, 5);
+    const promos = allRecommendations.slice(5, 8);
+
+    if (promos.length > 0 && promotedSection && promotedList) {
+      promotedSection.classList.remove("d-none");
+      promotedList.innerHTML = promos.map((game) => {
+        const matchingTags = Array.isArray(game.tagsCoincidentes) ? game.tagsCoincidentes : [];
+        const reason = matchingTags.length ? `Similar a tus gustos en: ${escapeHtml(matchingTags.join(", "))}` : "";
+        const headerImage = `https://cdn.akamai.steamstatic.com/steam/apps/${game.appid}/header.jpg`;
+
+        return `
+          <div class="list-group-item d-flex align-items-center gap-3 flex-wrap p-2 shadow-sm" style="background-color: rgba(179, 136, 235, 0.05); border: 1px solid rgba(179, 136, 235, 0.25); border-radius: 8px;">
+            <a href="${escapeAttribute(game.steamUrl || "#")}" target="_blank" rel="noopener noreferrer">
+              <img src="${headerImage}" alt="${escapeAttribute(game.name)}" class="game-thumb" style="width: 140px; height: 65px; object-fit: cover; border-radius: 4px;" onerror="this.src='https://via.placeholder.com/140x65?text=NA'">
+            </a>
+            <div class="flex-grow-1">
+              <div class="fw-bold">
+                <a href="${escapeAttribute(game.steamUrl || "#")}" target="_blank" rel="noopener noreferrer" class="text-decoration-none" style="color: #b388eb;">
+                  ${escapeHtml(game.name || "Juego sin nombre")}
+                </a>
+                <span class="badge ms-2" style="font-size: 0.65em; vertical-align: middle; background-color: rgba(179, 136, 235, 0.2); color: #b388eb; border: 1px solid rgba(179, 136, 235, 0.5);">Patrocinado</span>
+              </div>
+              <div class="small mt-1" style="color: rgba(255,255,255,0.7);">${reason}</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    } else if (promotedSection) {
+      promotedSection.classList.add("d-none");
+    }
+
+    resultsGrid.innerHTML = top5.map((game, index) => {
       const matchingTags = Array.isArray(game.tagsCoincidentes) ? game.tagsCoincidentes : [];
       const reason = matchingTags.length
         ? `Porque encaja con tus gustos en: ${escapeHtml(matchingTags.join(", "))}.`
