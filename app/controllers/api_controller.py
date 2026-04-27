@@ -112,7 +112,7 @@ def recommend():
     steam_id = str(request.args.get("steamId", "")).strip()
 
     if not steam_id.isdigit() or len(steam_id) != 17:
-        return jsonify({"error": "El Steam ID debe ser un SteamID64 de 17 dígitos."}), 400
+        return jsonify({"error": "El Steam ID debe ser un SteamID de 17 dígitos."}), 400
 
     if current_app.config["STEAM_API_KEY"] == "TU_API_KEY_AQUI":
         return jsonify({"error": "Falta configurar la Steam API Key."}), 500
@@ -135,7 +135,7 @@ def wrapped(steam_id: str):
     steam_id = str(steam_id).strip()
 
     if not steam_id.isdigit() or len(steam_id) != 17:
-        return jsonify({"error": "El Steam ID debe ser un SteamID64 de 17 dígitos."}), 400
+        return jsonify({"error": "El Steam ID debe ser un SteamID de 17 dígitos."}), 400
 
     facade = build_facade()
     try:

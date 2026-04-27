@@ -47,7 +47,6 @@
         <div class="tag-list">
           ${topTags.map((tag) => `<span class="tag-pill">${escapeHtml(tag)}</span>`).join('') || '<span class="tag-pill">Sin tags</span>'}
         </div>
-        ${missingTagFiles.length ? `<p class="muted-note">Faltan archivos JSON para: ${escapeHtml(missingTagFiles.join(', '))}</p>` : ''}
       </section>
     `;
 
@@ -117,7 +116,7 @@
       datalist.innerHTML = '';
       return;
     }
-    
+
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(async () => {
       if (searchAbortController) {

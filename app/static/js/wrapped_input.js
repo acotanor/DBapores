@@ -28,7 +28,7 @@
     const steamId = steamIdInput.value.trim();
 
     if (!/^\d{17}$/.test(steamId)) {
-      showError('Introduce un SteamID64 válido de 17 dígitos.');
+      showError('Introduce un SteamID válido de 17 dígitos.');
       steamIdInput.focus();
       return;
     }

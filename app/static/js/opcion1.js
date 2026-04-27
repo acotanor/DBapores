@@ -41,16 +41,10 @@
       <section class="summary-card">
         <h2>Tus gustos detectados</h2>
         <div class="tag-list">
-          ${
-            topTags.map((tag) => `<span class="tag-pill">${escapeHtml(tag)}</span>`).join("") ||
-            '<span class="tag-pill">Sin tags</span>'
-          }
+          ${topTags.map((tag) => `<span class="tag-pill">${escapeHtml(tag)}</span>`).join("") ||
+      '<span class="tag-pill">Sin tags</span>'
+      }
         </div>
-        ${
-          missingTagFiles.length
-            ? `<p class="muted-note">Faltan archivos JSON para: ${escapeHtml(missingTagFiles.join(", "))}</p>`
-            : ""
-        }
       </section>
     `;
 
@@ -127,7 +121,7 @@
     if (!/^\d{17}$/.test(steamId)) {
       setState({
         loading: false,
-        error: "Introduce un SteamID64 válido de 17 dígitos.",
+        error: "Introduce un SteamID válido de 17 dígitos.",
         payload: null
       });
       steamIdInput.focus();
