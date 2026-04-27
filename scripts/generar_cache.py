@@ -7,8 +7,9 @@ import math
 import argparse
 
 # Configuración extendida
-OUTPUT_DIR = "tags"
-CACHE_FILE = "top100_tags_cache.json"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TAGS_DIR = os.path.join(BASE_DIR, 'data', 'tags')
+CACHE_FILE = os.path.join(TAGS_DIR, "top100_tags_cache.json")
 TOP_TAGS_LIMIT = 30
 MAX_GAMES_PER_TAG = 50  
 VERIFY_LIMIT = 100      
@@ -52,7 +53,7 @@ def generar_cache_top100(nombre_archivo=CACHE_FILE, num_tags=5):
         total = len(top_100)
         
         for i, (appid, info) in enumerate(top_100.items(), 1):
-            print(f"  > Procesando {i}/{total}: {info.get('name', '???')[:30]}...", end="\r")
+            print(f"  > Procesando {i}/{total}: {info.get('name', '???')[:30]}{'.'*20}", end="\r")
             tags_juego = obtener_tags_juego(appid, silencioso=True, num_tags=num_tags)
             
             datos_guardar[appid] = {
@@ -100,7 +101,7 @@ def generar_cache_tags(tag, i, total):
     porcentaje = round((i / total) * 100, 1)
     
     nombre_archivo = tag.lower().replace(' ', '_').replace('-', '_') + ".json"
-    ruta_archivo = os.path.join(OUTPUT_DIR, nombre_archivo)
+    ruta_archivo = os.path.join(TAGS_DIR, nombre_archivo)
     accion = "[ACTUALIZANDO]" if os.path.exists(ruta_archivo) else "[CREANDO]"
     
     print(f"\n[{barra}] {porcentaje}% | {accion} Tag: {tag}")
@@ -118,7 +119,7 @@ def generar_cache_tags(tag, i, total):
             if analizados >= VERIFY_LIMIT or len(resultados) >= MAX_GAMES_PER_TAG:
                 break
             
-            print(f"  > Analizando profundidad: {info['name'][:30]}...", end="\r")
+            print(f"  > Analizando en profundidad: {info['name'][:30]}{'.'*20}", end="\r")
             
             # Consultar detalles para ver el ADN (rank del tag)
             url_detalles = f"https://steamspy.com/api.php?request=appdetails&appid={appid}"
@@ -156,30 +157,143 @@ def generar_cache_tags(tag, i, total):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Generador de videojuegos por tags para DBapores")
-    parser.add_argument("--refresh-cache", action="store_true", help="Fuerza la actualización de top100_tags_cache.json")
+    parser.add_argument("--force-all", action="store_true", help="Genera todos los cachés desde cero ignorando los anteriores")
     parser.add_argument("--tags-per-game", type=int, default=5, help="Número de tags a guardar por juego en el caché (default: 5)")
     args = parser.parse_args()
 
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    os.makedirs(TAGS_DIR, exist_ok=True)
     
-    # 1. Verificar/Generar Caché del Top 100
-    if args.refresh_cache or not os.path.exists(CACHE_FILE):
+    old_cache = {}
+    if os.path.exists(CACHE_FILE):
+        try:
+            with open(CACHE_FILE, "r", encoding="utf-8") as f:
+                old_cache = json.load(f)
+        except Exception:
+            pass
+
+    if args.force_all or not old_cache:
+        print("Modo: Generar todos los cachés desde cero...")
         if not generar_cache_top100(num_tags=args.tags_per_game):
             print("Abortando: No se pudo generar el caché necesario.")
             exit(1)
-    else:
-        print(f"Usando caché existente: {CACHE_FILE}")
+            
+        tags = obtener_30_tags_frecuentes()
+        if not tags:
+            print("Error: No se encontraron tags en el caché.")
+            exit(1)
+            
+        print(f"Iniciando análisis de videojuegos para los {len(tags)} tags más frecuentes...")
+        print(f"(Config: {MAX_GAMES_PER_TAG} juegos/tag, profundidad {VERIFY_LIMIT})")
+        for i, tag in enumerate(tags, 1):
+            generar_cache_tags(tag, i, len(tags))
+            
+        print(f"\n¡Proceso completado! Los archivos están en: {TAGS_DIR}/")
+        exit(0)
 
-    # 2. Obtener los 30 tags más frecuentes
-    tags = obtener_30_tags_frecuentes()
-    if not tags:
-        print("Error: No se encontraron tags en el caché. Intenta con --refresh-cache.")
+    # Comportamiento por defecto
+    print("Verificando actualizaciones del Top 100...")
+    url_top = "https://steamspy.com/api.php?request=top100in2weeks"
+    try:
+        response_top = requests.get(url_top)
+        response_top.raise_for_status()
+        top_100 = response_top.json()
+    except Exception as e:
+        print(f"Error al obtener nuevo Top 100: {e}")
         exit(1)
 
-    print(f"Iniciando análisis de videojuegos para los {len(tags)} tags más frecuentes...")
-    print(f"(Config: {MAX_GAMES_PER_TAG} juegos/tag, profundidad {VERIFY_LIMIT})")
+    new_appids = list(top_100.keys())
+    old_appids = list(old_cache.keys())
+
+    if new_appids == old_appids:
+        print("Ambas cachés son idénticas. Nada que actualizar...")
+        exit(0)
+
+    new_appids_set = set(new_appids)
+    old_appids_set = set(old_appids)
+
+    if new_appids_set == old_appids_set:
+        print("El orden de los juegos cambió, pero son los mismos. Actualizando caché...")
+        new_cache = {}
+        for appid in new_appids:
+            new_cache[appid] = old_cache[appid]
+            new_cache[appid]['ccu'] = top_100[appid].get('ccu', 0)
+        
+        with open(CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump(new_cache, f, ensure_ascii=False, indent=4)
+        print("Caché guardada reemplazando la anterior.")
+        exit(0)
+
+    juegos_nuevos = new_appids_set - old_appids_set
+    print(f"Se encontraron {len(juegos_nuevos)} juegos nuevos. Obteniendo tags...")
     
-    for i, tag in enumerate(tags, 1):
-        generar_cache_tags(tag, i, len(tags))
-    
-    print(f"\n¡Proceso completado! Los archivos están en: {OUTPUT_DIR}/")
+    new_cache = {}
+
+    for i, appid in enumerate(new_appids, 1):
+        if appid in old_cache:
+            new_cache[appid] = old_cache[appid]
+            new_cache[appid]['ccu'] = top_100[appid].get('ccu', 0)
+        else:
+            info_juego = top_100[appid]
+            print(f"  > Nuevo juego: {info_juego.get('name', 'Unknown')} (ID: {appid})")
+            
+            url_detalles = f"https://steamspy.com/api.php?request=appdetails&appid={appid}"
+            try:
+                rd = requests.get(url_detalles)
+                detalles = rd.json()
+                tags_dict_raw = detalles.get('tags', {})
+                if not isinstance(tags_dict_raw, dict):
+                    tags_dict_raw = {}
+                
+                tags_sorted = sorted(tags_dict_raw.items(), key=lambda x: x[1], reverse=True)
+                tags_juego = [t[0].lower() for t in tags_sorted[:args.tags_per_game]]
+            except Exception:
+                tags_juego = []
+                tags_dict_raw = {}
+
+            new_cache[appid] = {
+                'name': info_juego.get('name', 'Unknown'),
+                'ccu': info_juego.get('ccu', 0),
+                'tags': tags_juego
+            }
+            
+            for tag in tags_juego:
+                peso = calcular_peso_relevancia(tags_dict_raw, tag)
+                if peso > 0:
+                    nombre_archivo = tag.lower().replace(' ', '_').replace('-', '_') + ".json"
+                    ruta_archivo = os.path.join(TAGS_DIR, nombre_archivo)
+                    
+                    if os.path.exists(ruta_archivo):
+                        try:
+                            with open(ruta_archivo, "r", encoding="utf-8") as f:
+                                resultados = json.load(f)
+                        except Exception:
+                            resultados = []
+                    else:
+                        resultados = []
+                    
+                    if not any(str(r.get('appid')) == str(appid) for r in resultados):
+                        resultados.append({
+                            'appid': appid,
+                            'name': info_juego.get('name', 'Unknown'),
+                            'positive': info_juego.get('positive', 0),
+                            'relevancia': peso
+                        })
+                        
+                        for res in resultados:
+                            res['_score'] = math.log10(max(2, res.get('positive', 0))) * res.get('relevancia', 0)
+                        
+                        resultados = sorted(resultados, key=lambda x: x.get('_score', 0), reverse=True)
+                        for res in resultados:
+                            if '_score' in res:
+                                del res['_score']
+                                
+                        with open(ruta_archivo, "w", encoding="utf-8") as f:
+                            json.dump(resultados[:MAX_GAMES_PER_TAG], f, indent=4, ensure_ascii=False)
+            
+            time.sleep(0.2)
+
+    with open(CACHE_FILE, "w", encoding="utf-8") as f:
+        json.dump(new_cache, f, ensure_ascii=False, indent=4)
+        
+    print("Caché actualizada correctamente.")
+    exit(0)
