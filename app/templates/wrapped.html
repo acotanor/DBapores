@@ -36,9 +36,9 @@
 
             <div class="summary-card mb-3">
               <h3>Top Tags</h3>
-              <div class="tag-list mt-2">
+              <div class="tag-list mt-2" id="wrapped-feature-tags">
                 {% for t in report.topTags %}
-                <span class="tag-pill">{{ t }}</span>
+                <span class="tag-pill wrapped-filter-tag" style="cursor: pointer; transition: all 0.2s;" data-tag="{{ t }}">{{ t }}</span>
                 {% endfor %}
               </div>
             </div>
@@ -54,8 +54,8 @@
 
           <div class="col-lg-4 d-flex flex-column h-100">
             <div class="summary-card d-flex flex-column flex-grow-1 h-100 mb-0">
-              <h3>Top Games</h3>
-              <div class="list-group mt-2 flex-grow-1 overflow-y-auto" style="scrollbar-width: thin; padding-right: 5px;">
+              <h3 id="top-games-title">Top Games</h3>
+              <div class="list-group mt-2 flex-grow-1 overflow-y-auto" id="top-games-container" style="scrollbar-width: thin; padding-right: 5px;">
                 {% for g in report.topGames %}
                 <div class="list-group-item d-flex align-items-center gap-3 flex-wrap">
                   <img src="{{ g.image }}" alt="{{ g.name }}" class="game-thumb" width="140" height="40" />
@@ -72,8 +72,8 @@
             
           <div class="col-lg-5 d-flex flex-column h-100">
             <div class="summary-card d-flex flex-column flex-grow-1 h-100 mb-0">
-              <h3>Achievements</h3>
-              <div class="list-group mt-2 flex-grow-1 overflow-y-auto" style="scrollbar-width: thin; padding-right: 5px;">
+              <h3 id="achievements-title">Achievements</h3>
+              <div class="list-group mt-2 flex-grow-1 overflow-y-auto" id="achievements-container" style="scrollbar-width: thin; padding-right: 5px;">
                 {% for group in report.achievements %}
                 <div class="list-group-item d-flex flex-column gap-2 p-3 mb-2" style="background-color: rgba(255,255,255,0.03); border-radius: 12px;">
                   <div class="d-flex justify-content-between align-items-center">
@@ -107,7 +107,12 @@
     </section>
   </main>
 
+  <script>
+    window.WRAPPED_CONFIG = {
+      steamId: "{{ report.steamId }}",
+      filterRoute: "{{ url_for('api.wrapped_filtered') }}"
+    };
+  </script>
   <script src="{{ url_for('static', filename='js/wrapped.js') }}"></script>
 </body>
-
 </html>
