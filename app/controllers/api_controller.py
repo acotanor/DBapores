@@ -138,9 +138,10 @@ def wrapped(steam_id: str):
         return jsonify({"error": "El Steam ID debe ser un SteamID de 17 dígitos."}), 400
 
     facade = build_facade()
+    steam_api_key = current_app.config.get("STEAM_API_KEY", "")
     try:
-        # Generate recommendations and top tags using existing facade
-        payload = facade.generate_recommendations(steam_id=steam_id, limit=10, top_tags_count=10)
+        # Generate top tags using existing facade (no need for recommendations here)
+        payload = facade.generate_recommendations(steam_id=steam_id, limit=0, top_tags_count=10)
 
         # Derive top games and total playtime from owned games
         owned_games = payload.get('stats', {}).get('relevantGamesAnalyzed')
@@ -169,33 +170,54 @@ def wrapped(steam_id: str):
                 return 0.0
 
         top_games_items = []
+        all_achievements = []
+        
         for g in top_games:
             appid = str(g.get('appid', ''))
+            game_name = g.get('name', 'Sin nombre')
             top_games_items.append({
                 'appid': appid,
-                'name': g.get('name', ''),
+                'name': game_name,
                 'playtime': playtime_of(g),
                 'playtime_hours': to_hours(playtime_of(g)),
                 'image': f"https://cdn.akamai.steamstatic.com/steam/apps/{appid}/header.jpg"
             })
-
-        # Attach images for recommendations when possible
-        recs = payload.get('recommendations', [])
-        for r in recs:
-            try:
-                r_appid = r.get('appid') or r.get('id') or ''
-                r['image'] = f"https://cdn.akamai.steamstatic.com/steam/apps/{r_appid}/header.jpg"
-            except Exception:
-                r['image'] = None
+            
+            if steam_api_key:
+                try:
+                    url_user = f"https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/?key={steam_api_key}&steamid={steam_id}&appid={appid}&l=spanish"
+                    res_user = requests.get(url_user, timeout=5)
+                    if res_user.ok:
+                        data = res_user.json()
+                        logros = data.get("playerstats", {}).get("achievements", [])
+                        if logros:
+                            total_logros = len(logros)
+                            obtenidos = [l for l in logros if l.get('achieved') == 1]
+                            total_obtenidos = len(obtenidos)
+                            porcentaje = round((total_obtenidos / total_logros) * 100) if total_logros > 0 else 0
+                            
+                            # Sort obtained by unlocktime descending
+                            obtenidos.sort(key=lambda x: x.get('unlocktime', 0), reverse=True)
+                            
+                            recent = [{'name': l.get('name', l.get('apiname', 'Desconocido')), 'description': l.get('description', 'Sin descripción')} for l in obtenidos[:3]]
+                            
+                            all_achievements.append({
+                                'game_name': game_name,
+                                'percentage': porcentaje,
+                                'total_obtained': total_obtenidos,
+                                'total': total_logros,
+                                'recent': recent
+                            })
+                except Exception as e:
+                    print(f"Error fetching achievements for {appid}: {e}")
 
         report = {
             'steamId': steam_id,
             'topTags': payload.get('topTags', []),
             'topGames': top_games_items,
+            'achievements': all_achievements,
             'totalPlaytime': total_playtime,
             'totalPlaytimeHours': to_hours(total_playtime),
-            'recommendations': payload.get('recommendations', []),
-            'missingTagFiles': payload.get('missingTagFiles', []),
             'stats': payload.get('stats', {})
         }
 
