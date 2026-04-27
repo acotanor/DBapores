@@ -159,7 +159,7 @@ def wrapped(steam_id: str):
                         pass
             return 0.0
 
-        top_games = sorted(owned, key=playtime_of, reverse=True)[:10]
+        top_games = sorted(owned, key=playtime_of, reverse=True)[:15]
         total_playtime = sum(playtime_of(g) for g in owned)
 
         # Convert playtime (likely minutes) to hours for display
