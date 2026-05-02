@@ -26,19 +26,19 @@
 
         <a class="mini-orb-shell opt1" href="#" id="opt1">
           <span class="mini-orb">
-            <span>Opción 1</span>
+            <span>Recomendador Personal</span>
           </span>
         </a>
 
         <a class="mini-orb-shell opt2" href="#" id="opt2">
           <span class="mini-orb">
-            <span>Opción 2</span>
+            <span>Explorador de Juegos</span>
           </span>
         </a>
 
         <a class="mini-orb-shell opt3" href="#" id="opt3">
           <span class="mini-orb">
-            <span>Opción 3</span>
+            <span>Steam Wrapped</span>
           </span>
         </a>
 
@@ -48,9 +48,9 @@
 
   <script>
     window.APP_ROUTES = {
-      opcion1: "{{ url_for('web.opcion1') }}",
-      opcion2: "{{ url_for('web.opcion2')}}",
-      opcion3: "{{ url_for('web.opcion3')}}"
+      opcion1: "{{ url_for('web.recomendador') }}",
+      opcion2: "{{ url_for('web.explorador')}}",
+      opcion3: "{{ url_for('web.wrapped')}}"
     };
   </script>
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>

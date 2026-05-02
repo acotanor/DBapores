@@ -10,26 +10,14 @@ from app.strategies.relevant_games_strategy import TopPlaytimeRelevantGamesStrat
 from app.strategies.recommendation_sort_strategy import DefaultRecommendationSortStrategy
 import requests
 import os
-import unicodedata
-import re
 import json
-import csv
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from app.utils.disk_cache import DiskCache
+from app.services.game_catalog_service import GameCatalogService
 
 api_bp = Blueprint("api", __name__)
 
-# --- Configuration and Caches ---
-steamSpyCache = {}
-STEAMSPY_URL = 'https://steamspy.com/api.php'
-# __file__ is repo/app/controllers/api_controller.py. 
-# Go up 3 levels to reach the root directory.
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-TAGS_DIR = os.path.join(BASE_DIR, 'data', 'tags')
-APP_LIST_PATH = os.path.join(BASE_DIR, 'data', 'app_list.csv')
-
-tagFileCache = {}
-app_list_cache = []
-app_name_to_id_cache = {}
-app_list_loaded = False
+# --- Configuration ---
 _shared_clients = {}
 
 def build_facade() -> RecommendationFacade:
@@ -41,12 +29,17 @@ def build_facade() -> RecommendationFacade:
         base_url=config["STEAM_API_BASE_URL"],
         timeout=config["REQUEST_TIMEOUT"],
     )
-    # Reuse a shared SteamSpyClient across requests to keep its internal cache
-    # (avoids re-requesting the same app details on every request).
+    
+    # Reuse a shared DiskCache across requests
+    if 'cache' not in _shared_clients:
+        _shared_clients['cache'] = DiskCache(config["CACHE_DIR"])
+    disk_cache = _shared_clients['cache']
+
     if 'steamspy' not in _shared_clients:
         _shared_clients['steamspy'] = SteamSpyClient(
             base_url=config["STEAMSPY_URL"],
             timeout=config["REQUEST_TIMEOUT"],
+            disk_cache=disk_cache
         )
     steamspy_client = _shared_clients['steamspy']
     tag_repository = TagRepository(tags_dir=config["TAGS_DIR"])
@@ -54,55 +47,21 @@ def build_facade() -> RecommendationFacade:
     relevant_games_strategy = TopPlaytimeRelevantGamesStrategy()
     sort_strategy = DefaultRecommendationSortStrategy()
 
-    steam_library_service = SteamLibraryService(steam_client)
+    steam_library_service = SteamLibraryService(steam_client, disk_cache)
     tag_profile_service = TagProfileService(steamspy_client, relevant_games_strategy)
-    recommendation_service = RecommendationService(tag_repository, sort_strategy)
+    recommendation_service = RecommendationService(
+        tag_repository, 
+        sort_strategy, 
+        sponsored_path=config.get("SPONSORED_APPS_PATH")
+    )
+    game_catalog_service = GameCatalogService(config["APP_LIST_PATH"])
 
     return RecommendationFacade(
         steam_library_service=steam_library_service,
         tag_profile_service=tag_profile_service,
         recommendation_service=recommendation_service,
+        game_catalog_service=game_catalog_service
     )
-
-# --- Helper Functions ---
-
-def normalize_search_name(name):
-    """
-    Strips symbols like ® and ™ to ensure robust matches.
-    """
-    if not name:
-        return ""
-    # NFKD normalization separates base characters from their marks.
-    name = unicodedata.normalize('NFKD', name.strip().lower())
-    # Remove registered trademark, trademark, and copyright symbols.
-    name = re.sub(r'[®™©]', '', name)
-    # Remove extra whitespace.
-    return re.sub(r'\s+', ' ', name).strip()
-
-def load_app_list():
-    """Loads the CSV into memory caches for searching and name resolution."""
-    global app_list_loaded
-    if not app_list_loaded:
-        app_list_loaded = True
-        try:
-            with open(APP_LIST_PATH, 'r', encoding='utf-8') as f:
-                reader = csv.reader(f)
-                next(reader, None)  # Skip CSV header
-                for row in reader:
-                    if len(row) >= 2:
-                        appid, game_name = row[0], row[1]
-                        # Store using the clean version for the dictionary key.
-                        clean_name = normalize_search_name(game_name)
-                        app_name_to_id_cache[clean_name] = appid
-                        # Keep original name for display purposes in the UI.
-                        app_list_cache.append({'id': appid, 'name': game_name.strip()})
-        except Exception as e:
-            print(f"Error loading app_list.csv: {e}")
-
-def get_appid_by_name(name):
-    """Resolves a game name to its App ID using normalized matching."""
-    load_app_list()
-    return app_name_to_id_cache.get(normalize_search_name(name))
 
 # --- API Routes ---
 
@@ -119,7 +78,8 @@ def recommend():
 
     facade = build_facade()
     try:
-        payload = facade.generate_recommendations(steam_id=steam_id, limit=8, top_tags_count=5)
+        # Generate recommendations (facade now handles fallback internally)
+        payload = facade.generate_recommendations(steam_id=steam_id, limit=15, top_tags_count=5)
         return jsonify(payload), 200
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 404
@@ -129,9 +89,7 @@ def recommend():
 
 @api_bp.get('/wrapped/<steam_id>')
 def wrapped(steam_id: str):
-    """Prototype 'Steam Wrapped' endpoint. Returns JSON and renders a simple HTML report if
-    the request accepts HTML.
-    """
+    """Prototype 'Steam Wrapped' endpoint."""
     steam_id = str(steam_id).strip()
 
     if not steam_id.isdigit() or len(steam_id) != 17:
@@ -140,16 +98,9 @@ def wrapped(steam_id: str):
     facade = build_facade()
     steam_api_key = current_app.config.get("STEAM_API_KEY", "")
     try:
-        # Generate top tags using existing facade (no need for recommendations here)
         payload = facade.generate_recommendations(steam_id=steam_id, limit=0, top_tags_count=10)
+        owned = payload.get('ownedGames', [])
 
-        # Derive top games and total playtime from owned games
-        owned_games = payload.get('stats', {}).get('relevantGamesAnalyzed')
-        # Note: `generate_recommendations` does not return owned games; fetch directly
-        steam_lib = facade.steam_library_service
-        owned = steam_lib.get_owned_games(steam_id)
-
-        # Compute top games by playtime (field names may vary; use 'playtime_forever' or 'playtime')
         def playtime_of(g):
             for k in ('playtime_forever', 'playtime', 'playtime_hours'):
                 if k in g and g[k] is not None:
@@ -162,7 +113,6 @@ def wrapped(steam_id: str):
         top_games = sorted(owned, key=playtime_of, reverse=True)[:15]
         total_playtime = sum(playtime_of(g) for g in owned)
 
-        # Convert playtime (likely minutes) to hours for display
         def to_hours(minutes):
             try:
                 return round(float(minutes) / 60.0, 1)
@@ -183,33 +133,14 @@ def wrapped(steam_id: str):
                 'image': f"https://cdn.akamai.steamstatic.com/steam/apps/{appid}/header.jpg"
             })
             
-            if steam_api_key:
-                try:
-                    url_user = f"https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/?key={steam_api_key}&steamid={steam_id}&appid={appid}&l=spanish"
-                    res_user = requests.get(url_user, timeout=5)
-                    if res_user.ok:
-                        data = res_user.json()
-                        logros = data.get("playerstats", {}).get("achievements", [])
-                        if logros:
-                            total_logros = len(logros)
-                            obtenidos = [l for l in logros if l.get('achieved') == 1]
-                            total_obtenidos = len(obtenidos)
-                            porcentaje = round((total_obtenidos / total_logros) * 100) if total_logros > 0 else 0
-                            
-                            # Sort obtained by unlocktime descending
-                            obtenidos.sort(key=lambda x: x.get('unlocktime', 0), reverse=True)
-                            
-                            recent = [{'name': l.get('name', l.get('apiname', 'Desconocido')), 'description': l.get('description', 'Sin descripción')} for l in obtenidos[:3]]
-                            
-                            all_achievements.append({
-                                'game_name': game_name,
-                                'percentage': porcentaje,
-                                'total_obtained': total_obtenidos,
-                                'total': total_logros,
-                                'recent': recent
-                            })
-                except Exception as e:
-                    print(f"Error fetching achievements for {appid}: {e}")
+        if steam_api_key:
+            steam_lib = facade.steam_library_service
+            with ThreadPoolExecutor(max_workers=20) as executor:
+                futures = [executor.submit(steam_lib.get_game_achievements, steam_id, g) for g in top_games]
+                for fut in as_completed(futures):
+                    res = fut.result()
+                    if res:
+                        all_achievements.append(res)
 
         report = {
             'steamId': steam_id,
@@ -221,13 +152,11 @@ def wrapped(steam_id: str):
             'stats': payload.get('stats', {})
         }
 
-        # If the client accepts HTML, render a simple template; otherwise return JSON
         accept = request.headers.get('Accept', '')
         if 'text/html' in accept:
             try:
                 return current_app.jinja_env.get_or_select_template(['wrapped.html']).render(report=report), 200
             except Exception:
-                # Fallback to JSON if template not found or render fails
                 return jsonify(report), 200
 
         return jsonify(report), 200
@@ -254,7 +183,8 @@ def wrapped_filtered():
         owned = steam_lib.get_owned_games(steam_id)
         owned_dict = {str(g.get('appid')): g for g in owned}
         
-        tag_games = load_tag_games(tag, TAGS_DIR)
+        # Use TagRepository from recommendation service
+        tag_games = facade.recommendation_service.tag_repository.load_games_by_tag(tag)
         if not tag_games:
             return jsonify({"topGames": [], "achievements": []}), 200
             
@@ -295,31 +225,13 @@ def wrapped_filtered():
                 'image': f"https://cdn.akamai.steamstatic.com/steam/apps/{appid}/header.jpg"
             })
             
-            if steam_api_key:
-                try:
-                    url_user = f"https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/?key={steam_api_key}&steamid={steam_id}&appid={appid}&l=spanish"
-                    res_user = requests.get(url_user, timeout=5)
-                    if res_user.ok:
-                        data = res_user.json()
-                        logros = data.get("playerstats", {}).get("achievements", [])
-                        if logros:
-                            total_logros = len(logros)
-                            obtenidos = [l for l in logros if l.get('achieved') == 1]
-                            total_obtenidos = len(obtenidos)
-                            porcentaje = round((total_obtenidos / total_logros) * 100) if total_logros > 0 else 0
-                            
-                            obtenidos.sort(key=lambda x: x.get('unlocktime', 0), reverse=True)
-                            recent = [{'name': l.get('name', l.get('apiname', 'Desconocido')), 'description': l.get('description', 'Sin descripción')} for l in obtenidos[:3]]
-                            
-                            all_achievements.append({
-                                'game_name': game_name,
-                                'percentage': porcentaje,
-                                'total_obtained': total_obtenidos,
-                                'total': total_logros,
-                                'recent': recent
-                            })
-                except Exception as e:
-                    print(f"Error fetching achievements for {appid}: {e}")
+        if steam_api_key:
+            with ThreadPoolExecutor(max_workers=20) as executor:
+                futures = [executor.submit(steam_lib.get_game_achievements, steam_id, g) for g in top_games]
+                for fut in as_completed(futures):
+                    res = fut.result()
+                    if res:
+                        all_achievements.append(res)
 
         return jsonify({
             "topGames": top_games_items,
@@ -336,33 +248,13 @@ def api_recommend_by_game():
     if not app_id_or_name:
         return jsonify({'error': 'El App ID o Nombre no puede estar vacío.'}), 400
     
-    app_id = app_id_or_name
-    if not app_id.isdigit():
-        resolved_id = get_appid_by_name(app_id_or_name)
-        if not resolved_id:
-            return jsonify({'error': f'No se encontró ningún juego con el nombre "{app_id_or_name}".'}), 404
-        app_id = resolved_id
-    
+    facade = build_facade()
     try:
-        tags = get_steamspy_tags(app_id, 5)
-        if not tags:
-            # Check if it was a specifically caught error or just empty
-            return jsonify({
-                'error': f'No se pudieron obtener tags para el juego (AppID: {app_id}). '
-                         'Verifica la conexión con SteamSpy o si el ID es correcto.'
-            }), 502
-        
-        owned_games = [{'appid': app_id}]
-        recommendations, missing_tag_files = recommend_games_from_local_tags(
-            owned_games, top_tags=tags, tags_dir=TAGS_DIR, limit=5
-        )
-        
-        return jsonify({
-            'appId': app_id,
-            'topTags': tags,
-            'missingTagFiles': missing_tag_files,
-            'recommendations': recommendations
-        })
+        # Generate recommendations (facade now handles fallback internally)
+        data = facade.recommend_by_game(app_id_or_name, limit=15)
+        return jsonify(data), 200
+    except ValueError as exc:
+        return jsonify({"error": str(exc)}), 404
     except Exception as e:
         print(f"Error en /api/recommend_by_game: {e}")
         return jsonify({'error': 'Error interno al generar las recomendaciones.'}), 500
@@ -374,149 +266,6 @@ def api_search_games():
     if len(q) < 2:
         return jsonify([])
     
-    load_app_list()
-    clean_q = normalize_search_name(q)
-    results = []
-    
-    for game in app_list_cache:
-        # Check against the normalized version so symbols don't prevent matches.
-        if clean_q in normalize_search_name(game['name']):
-            results.append(game)
-            if len(results) >= 15:
-                break
+    facade = build_facade()
+    results = facade.game_catalog_service.search_games(q)
     return jsonify(results)
-
-# --- SteamSpy & Tag Processing ---
-
-def get_steamspy_tags(appid, num_tags=5):
-    """Fetches top tags for an AppID from SteamSpy."""
-    cache_key = f"{appid}:{num_tags}"
-    if cache_key in steamSpyCache:
-        return steamSpyCache[cache_key]
-    
-    try:
-        resp = requests.get(STEAMSPY_URL, params={'request': 'appdetails', 'appid': appid}, timeout=15)
-        if not resp.ok:
-            print(f"DEBUG: SteamSpy API error for {appid}: HTTP {resp.status_code}")
-            return []
-        
-        data = resp.json()
-        if not data or not isinstance(data, dict):
-            print(f"DEBUG: SteamSpy returned invalid JSON for {appid}")
-            return []
-            
-        tags_object = data.get('tags')
-        
-        if not tags_object or not isinstance(tags_object, dict):
-            print(f"DEBUG: No tags found in SteamSpy response for {appid}. Checking genre.")
-            genre_str = data.get('genre', '')
-            if genre_str and isinstance(genre_str, str):
-                genres = [g.strip().lower() for g in genre_str.split(',') if g.strip()]
-                print(f"DEBUG: Using genre fallback for {appid}: {genres}")
-                tags = genres[:num_tags]
-                steamSpyCache[cache_key] = tags
-                return tags
-                
-            if 'name' in data:
-                print(f"DEBUG: Game found: {data['name']}, but no tags or genre.")
-            return []
-        
-        # Sort tags by frequency, handling potential non-integer values safely
-        try:
-            tags_sorted = sorted(
-                tags_object.items(), 
-                key=lambda x: int(str(x[1]).replace(',', '') if x[1] else 0), 
-                reverse=True
-            )
-        except (ValueError, TypeError) as e:
-            print(f"DEBUG: Error sorting tags for {appid}: {e}")
-            tags_sorted = list(tags_object.items())
-
-        tags = [str(k).lower() for k, v in tags_sorted[:num_tags]]
-        
-        steamSpyCache[cache_key] = tags
-        return tags
-    except Exception as e:
-        print(f"DEBUG: Exception in get_steamspy_tags for {appid}: {e}")
-        return []
-
-def recommend_games_from_local_tags(owned_games, top_tags, tags_dir, limit=5):
-    """Calculates game scores based on overlapping local tag JSON files."""
-    owned_ids = {str(g['appid']) for g in owned_games}
-    candidates = {}
-    missing_tag_files = []
-    
-    for tag in top_tags:
-        tag_games = load_tag_games(tag, tags_dir)
-        if not tag_games:
-            missing_tag_files.append(tag)
-            continue
-        
-        for game in tag_games:
-            appid = str(game.get('appid', '')).strip()
-            if not appid or appid in owned_ids:
-                continue
-            
-            if appid not in candidates:
-                candidates[appid] = {
-                    'appid': appid,
-                    'name': game.get('name', 'Sin nombre'),
-                    'positive': int(game.get('positive', 0)),
-                    'tagsCoincidentes': set(),
-                    'relevancia_total': 0,
-                    'relevancia_max': 0
-                }
-            
-            c = candidates[appid]
-            relevancia = float(game.get('relevancia', 0))
-            c['tagsCoincidentes'].add(tag)
-            c['relevancia_total'] += relevancia
-            c['relevancia_max'] = max(c['relevancia_max'], relevancia)
-
-    recommendations_list = []
-    for c in candidates.values():
-        tags_coincidentes = sorted(list(c['tagsCoincidentes']))
-        recommendations_list.append({
-            **c,
-            'coincidencias': len(tags_coincidentes),
-            'tagsCoincidentes': tags_coincidentes,
-            'steamUrl': f"https://store.steampowered.com/app/{c['appid']}/"
-        })
-    
-    # Sort by matches first, then relevance.
-    recommendations_list.sort(key=lambda x: (
-        -x['coincidencias'],
-        -x['relevancia_total'],
-        -x['relevancia_max'],
-        -x['positive'],
-        x['name'].lower()
-    ))
-    
-    return recommendations_list[:limit], missing_tag_files
-
-def load_tag_games(tag, tags_dir):
-    """Loads a specific tag's JSON file and caches the content."""
-    file_name = f"{normalize_tag_to_file_name(tag)}.json"
-    file_path = os.path.join(tags_dir, file_name)
-    
-    if file_path in tagFileCache:
-        return tagFileCache[file_path]
-    
-    try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            parsed = json.load(f)
-            games = parsed if isinstance(parsed, list) else []
-            tagFileCache[file_path] = games
-            return games
-    except Exception:
-        return []
-
-def normalize_tag_to_file_name(tag):
-    """Converts a tag name into a valid filesystem filename."""
-    tag = unicodedata.normalize('NFD', tag.strip().lower())
-    tag = ''.join(c for c in tag if unicodedata.category(c) != 'Mn')
-    tag = tag.replace('&', 'and')
-    tag = re.sub(r'[ \-]+', '_', tag)
-    tag = re.sub(r'[^a-z0-9_]', '', tag)
-    tag = re.sub(r'_+', '_', tag)
-    return tag.strip('_')

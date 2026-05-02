@@ -34,3 +34,33 @@ class SteamApiClient:
             }
             for game in games
         ]
+
+    def get_player_achievements(self, steam_id: str, appid: str) -> list[dict]:
+        url = "https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v1/"
+        params = {
+            "key": self.api_key,
+            "steamid": steam_id,
+            "appid": appid,
+            "l": "spanish"
+        }
+        response = requests.get(url, params=params, timeout=self.timeout)
+        if not response.ok:
+            return []
+        
+        data = response.json()
+        return data.get("playerstats", {}).get("achievements", [])
+
+    def get_global_achievement_percentages(self, appid: str) -> dict:
+        url = "https://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v0002/"
+        params = {"gameid": appid}
+        
+        try:
+            response = requests.get(url, params=params, timeout=self.timeout)
+            if not response.ok:
+                return {}
+            
+            data = response.json()
+            achs = data.get("achievementpercentages", {}).get("achievements", [])
+            return {a['name']: float(a['percent']) for a in achs}
+        except Exception:
+            return {}

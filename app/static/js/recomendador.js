@@ -39,6 +39,7 @@
   function renderPayload(payload) {
     const topTags = Array.isArray(payload.topTags) ? payload.topTags : [];
     const recommendations = Array.isArray(payload.recommendations) ? payload.recommendations : [];
+    const featured = Array.isArray(payload.featured) ? payload.featured : [];
     const missingTagFiles = Array.isArray(payload.missingTagFiles) ? payload.missingTagFiles : [];
 
     resultsSummary.innerHTML = `
@@ -52,7 +53,7 @@
       </section>
     `;
 
-    if (!recommendations.length) {
+    if (!recommendations.length && !featured.length) {
       resultsGrid.innerHTML = `
         <div class="empty-results">
           No se han encontrado recomendaciones con las tags disponibles en <strong>data/tags/</strong>.
@@ -61,9 +62,8 @@
       return;
     }
 
-    const allRecommendations = Array.isArray(payload.recommendations) ? payload.recommendations : [];
-    const top5 = allRecommendations.slice(0, 5);
-    const promos = allRecommendations.slice(5, 8);
+    const top5 = recommendations;
+    const promos = featured;
 
     if (promos.length > 0 && promotedSection && promotedList) {
       promotedSection.classList.remove("d-none");

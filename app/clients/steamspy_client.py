@@ -3,19 +3,29 @@ import threading
 
 
 class SteamSpyClient:
-    def __init__(self, base_url: str, timeout: int = 15):
+    def __init__(self, base_url: str, timeout: int = 15, disk_cache=None):
         self.base_url = base_url
         self.timeout = timeout
+        self.disk_cache = disk_cache
         self._cache = {}
         # Lock to protect concurrent access to self._cache
         self._lock = threading.RLock()
 
     def get_top_tags(self, appid: str, num_tags: int = 5) -> list[str]:
-        cache_key = f"{appid}:{num_tags}"
-        # Fast path: check cache under lock
+        cache_key = f"steamspy_{appid}_{num_tags}"
+        
+        # 1. Memory cache check
         with self._lock:
             if cache_key in self._cache:
                 return self._cache[cache_key]
+
+        # 2. Disk cache check
+        if self.disk_cache:
+            cached_data = self.disk_cache.get(cache_key)
+            if cached_data is not None:
+                with self._lock:
+                    self._cache[cache_key] = cached_data
+                return cached_data
 
         try:
             response = requests.get(
@@ -44,6 +54,8 @@ class SteamSpyClient:
                     genres = [g.strip().lower() for g in genre_str.split(',') if g.strip()]
                     print(f"DEBUG Client: Using genre fallback for {appid}: {genres}")
                     tags = genres[:num_tags]
+                    if self.disk_cache:
+                        self.disk_cache.set(cache_key, tags)
                     with self._lock:
                         self._cache[cache_key] = tags
                     return tags
@@ -65,6 +77,8 @@ class SteamSpyClient:
                 print(f"DEBUG Client: Sorting error for {appid}: {e}")
                 tags = [str(k).lower() for k in list(tags_obj.keys())[:num_tags]]
 
+            if self.disk_cache:
+                self.disk_cache.set(cache_key, tags)
             with self._lock:
                 self._cache[cache_key] = tags
             return tags

@@ -8,15 +8,15 @@ def home():
     return render_template("index.html")
 
 
-@web_bp.get("/opcion1")
-def opcion1():
-    return render_template("opcion1.html")
+@web_bp.get("/recomendador")
+def recomendador():
+    return render_template("recomendador.html")
 
-@web_bp.get("/opcion2")
-def opcion2():
-    return render_template("opcion2.html")
+@web_bp.get("/explorador")
+def explorador():
+    return render_template("explorador.html")
 
 
-@web_bp.get("/opcion3")
-def opcion3():
+@web_bp.get("/wrapped")
+def wrapped():
     return render_template("wrapped_input.html")

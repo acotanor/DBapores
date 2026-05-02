@@ -20,7 +20,7 @@ class TagProfileService:
         # querying multiple games. The SteamSpy client keeps an internal
         # cache so repeated calls are cheap.
         if relevant_games:
-            max_workers = min(8, len(relevant_games))
+            max_workers = min(15, len(relevant_games))
             with ThreadPoolExecutor(max_workers=max_workers) as executor:
                 futures = [
                     executor.submit(self.steamspy_client.get_top_tags, game["appid"], steamspy_tags_per_game)

@@ -66,17 +66,20 @@ document.addEventListener('DOMContentLoaded', () => {
           achievementsContainer.innerHTML = data.achievements.map(group => {
             const percentageBadge = `<span class="badge" style="background-color: rgba(43, 121, 255, 0.4); border: 1px solid rgba(43, 121, 255, 0.6); font-size: 0.8em;">${group.percentage}% (${group.total_obtained}/${group.total})</span>`;
             
-            let recentHtml = '';
-            if (group.recent && group.recent.length > 0) {
-              recentHtml = `<div class="d-flex flex-column gap-2 mt-1">` + 
-                group.recent.map(a => `
+            let rarestHtml = '';
+            if (group.rarest && group.rarest.length > 0) {
+              rarestHtml = `<div class="d-flex flex-column gap-2 mt-1">` + 
+                group.rarest.map(a => `
                   <div class="p-2 rounded border" style="background-color: rgba(0,0,0,0.25); border-color: rgba(255,255,255,0.08) !important;">
-                    <div class="fw-bold text-white mb-1" style="font-size: 0.9rem;">${escapeHtml(a.name)}</div>
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                      ${a.icon ? `<img src="/static/img/${a.icon}" alt="${a.icon}" width="24" height="24" style="object-fit: contain;">` : ''}
+                      <div class="fw-bold text-white" style="font-size: 0.9rem;">${escapeHtml(a.name)}</div>
+                    </div>
                     <div class="text-white-50" style="font-size: 0.8rem; line-height: 1.3;">${escapeHtml(a.description)}</div>
                   </div>
                 `).join('') + `</div>`;
             } else {
-              recentHtml = `<div class="text-white-50 small mt-1">Aún no hay logros obtenidos en este juego.</div>`;
+              rarestHtml = `<div class="text-white-50 small mt-1">Aún no hay logros obtenidos en este juego.</div>`;
             }
 
             return `
@@ -85,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   <strong class="text-white fs-6">${escapeHtml(group.game_name)}</strong>
                   ${percentageBadge}
                 </div>
-                ${recentHtml}
+                ${rarestHtml}
               </div>
             `;
           }).join('');
