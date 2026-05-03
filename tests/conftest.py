@@ -58,3 +58,16 @@ def app(tmp_path: Path):
 @pytest.fixture()
 def client(app):
     return app.test_client()
+
+
+@pytest.fixture()
+def patch_build_facade(monkeypatch):
+    """Helper fixture to replace api_controller.build_facade with a fake facade."""
+
+    def _patch(fake_facade):
+        import app.controllers.api_controller as api_controller
+
+        monkeypatch.setattr(api_controller, "build_facade", lambda: fake_facade)
+        return fake_facade
+
+    return _patch
