@@ -4,6 +4,6 @@
 
 ```bash
 python -m pip install -r requirements-dev.txt
-pytest
+pytest tests/unit/test_*.py
 # o:
 pytest --cov=app
