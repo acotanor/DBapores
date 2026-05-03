@@ -16,15 +16,13 @@ from app import create_app
 
 @pytest.fixture(autouse=True)
 def _block_external_http_requests(monkeypatch):
-    """Safety net: tests must run offline; mock requests.get explicitly when needed."""
-
     def _blocked(*_args, **_kwargs):
         raise RuntimeError(
             "External HTTP requests are disabled in tests. "
-            "Mock/monkeypatch requests.get (or the client methods) instead."
+            "Mock the HTTP client instead."
         )
 
-    monkeypatch.setattr(requests, "get", _blocked)
+    monkeypatch.setattr(requests.sessions.Session, "request", _blocked)
 
 
 @pytest.fixture()

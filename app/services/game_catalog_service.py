@@ -16,9 +16,14 @@ class GameCatalogService:
         """
         if not name:
             return ""
+        # Lowercase and trim first.
+        name = name.strip().lower()
+        # Remove registered trademark, trademark, and copyright glyphs BEFORE
+        # Unicode normalization so ™ doesn't decompose into the letters "TM".
+        name = re.sub(r'[®™©]', '', name)
         # NFKD normalization separates base characters from their marks.
-        name = unicodedata.normalize('NFKD', name.strip().lower())
-        # Remove registered trademark, trademark, and copyright symbols.
+        name = unicodedata.normalize('NFKD', name)
+        # Safety pass in case any of those glyphs remain.
         name = re.sub(r'[®™©]', '', name)
         # Remove extra whitespace.
         return re.sub(r'\s+', ' ', name).strip()

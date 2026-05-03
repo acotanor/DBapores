@@ -41,10 +41,8 @@ def test_normalize_search_name_removes_trademark_symbols():
     svc = GameCatalogService(app_list_path="/does/not/matter.csv")
     result = svc.normalize_search_name("Rainbow Six® Siege™ ©")
 
-    # The intent is to strip trademark/copyright glyphs from search names.
-    # Note: with NFKD normalization, ™ can become the letters "TM".
     assert "®" not in result and "™" not in result and "©" not in result
-    assert result.lower() in {"rainbow six siege", "rainbow six siegetm"}
+    assert result == "rainbow six siege"
 
 
 def test_get_appid_by_name_resolves_using_normalized_matching(tmp_path: Path):
