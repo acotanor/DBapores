@@ -3,4 +3,7 @@
 ## Instalación
 
 ```bash
-python -m venv .venv
+python -m pip install -r requirements-dev.txt
+pytest
+# o:
+pytest --cov=app
